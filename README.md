@@ -15,6 +15,7 @@
 Our project is focused on providing the best way to access healthy food for a better life.
 Through our recipes application, the user will get several suggestions for delicious recipes within the appropriate calorie limits based on the raw food materials available to the user.
 
+To see more on the project requirements, click on [this.link](requirements.md). 
 **MVP** : 
 1. Provide healthy food recipes based on search and filter tools.
 2. Provide the user with caloric calculation service
