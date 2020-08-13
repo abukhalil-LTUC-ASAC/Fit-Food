@@ -26,6 +26,8 @@ To see more on the project requirements, click on [this.link](requirements.md).
 
 # User Stories
 
+[Project management board](https://trello.com/b/G0hz543R/fit-food)
+
 # Domain Modeling
 
 # Contribution :
