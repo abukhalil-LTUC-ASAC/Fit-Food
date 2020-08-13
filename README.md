@@ -20,9 +20,36 @@ Through our recipes application, the user will get several suggestions for delic
 2. Provide the user with caloric calculation service
 3. Providing the service of preserving your favorite recipes for later reference
 
+To see more on the project requirements, click on [this.link](requirements.md). 
+
 # Wireframes
 
+## Home page
+
+![home01](public/img/wireframe/HOME - 01.png)
+
+![home02](public/img/wireframe/HOME - 02.png)
+
+![home03](public/img/wireframe/HOME - 03.png)
+
+## Calorie calculator
+
+![calc01](public/img/wireframe/Calorie calculator - 01.png)
+
+![calc02](public/img/wireframe/Calorie calculator - 02.png)
+
+## Recipe page
+
+![recipe](public/img/wireframe/Recipe page.png)
+
+## Search Result page
+
+![recipe](public/img/wireframe/Search Result.png)
+
+
 # User Stories
+
+[Project management board](https://trello.com/b/G0hz543R/fit-food)
 
 # Domain Modeling
 
