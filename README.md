@@ -26,25 +26,25 @@ To see more on the project requirements, click on [this.link](requirements.md).
 
 ## Home page
 
-![home01](public/img/wireframe/HOME-01.png)
+![home01](/wireframe/HOME-01.png)
 
-![home02](public/img/wireframe/HOME-02.png)
+![home02](/wireframe/HOME-02.png)
 
-![home03](public/img/wireframe/HOME-03.png)
+![home03](/wireframe/HOME-03.png)
 
 ## Calorie calculator
 
-![calc01](public/img/wireframe/CalorieCalculator-01.png)
+![calc01](/wireframe/CalorieCalculator-01.png)
 
-![calc02](public/img/wireframe/CalorieCalculator-02.png)
+![calc02](/wireframe/CalorieCalculator-02.png)
 
 ## Recipe page
 
-![recipe](public/img/wireframe/RecipePage.png)
+![recipe](/wireframe/RecipePage.png)
 
 ## Search Result page
 
-![recipe](public/img/wireframe/SearchResult.png)
+![recipe](/wireframe/SearchResult.png)
 
 
 # User Stories
