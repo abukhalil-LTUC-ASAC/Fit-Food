@@ -53,6 +53,8 @@ To see more on the project requirements, click on [this.link](requirements.md).
 
 # Domain Modeling
 
+![domain](/wireframe/domainModeling.PNG)
+
 # Contribution :
 
 - [Yahya Abu Khalil](https://github.com/AbuKhalil95)
