@@ -24,11 +24,36 @@ To see more on the project requirements, click on [this.link](requirements.md).
 
 # Wireframes
 
+## Home page
+
+![home01](/wireframe/HOME-01.png)
+
+![home02](/wireframe/HOME-02.png)
+
+![home03](/wireframe/HOME-03.png)
+
+## Calorie calculator
+
+![calc01](/wireframe/CalorieCalculator-01.png)
+
+![calc02](/wireframe/CalorieCalculator-02.png)
+
+## Recipe page
+
+![recipe](/wireframe/RecipePage.png)
+
+## Search Result page
+
+![recipe](/wireframe/SearchResult.png)
+
+
 # User Stories
 
 [Project management board](https://trello.com/b/G0hz543R/fit-food)
 
 # Domain Modeling
+
+![domain](/wireframe/domainModeling.PNG)
 
 # Contribution :
 
