@@ -51,6 +51,9 @@ app.get("/", homeHandler);
 // get search
 app.get("/search", searchHandler);
 
+// get calculator
+app.get("/calculate", calculateCalories);
+
 // -------------------------------- CALLBACK FUNCTIONS --------------------------------
 
 //home
@@ -69,6 +72,11 @@ async function searchHandler(req, res) {
   res.render("pages/recipeResult", {
     recipes: recipes
   });
+}
+
+//calculate
+function calculateCalories(req, res) {
+  res.render("pages/calorieCalculator");
 }
 
 // -------------------------------- API FUNCTIONS --------------------------------
