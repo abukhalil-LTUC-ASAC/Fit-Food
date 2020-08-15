@@ -62,19 +62,29 @@ function homeHandler(req, res) {
 //search
 async function searchHandler(req, res) {
   let ingredients = req.query.searchFood;
-  let recipes = await getRecipes(ingredients);
+  let from = req.query.from;
+  let to = req.query.to;
+  let diet = req.query.diet;
+  let health = req.query.health;
+  let recipes = await getRecipes(ingredients, from, to, diet, health);
+  // res.send(req.query);
   res.send(recipes);
+
 }
 
 // -------------------------------- API FUNCTIONS --------------------------------
 
-function getRecipes(ingredients) {
+function getRecipes(ingredients, from, to, diet, health) {
   let url = "https://api.edamam.com/search";
   let queryParams = {
     q: ingredients,
     app_id: APP_ID,
     app_key: APP_KEY,
+    calories: from && to ? `${from}-${to}` : from ? `${from}+` : to ?  `${to}`: '0+',
+    diet: diet,
+    health: health
   };
+  console.log(queryParams);
   let result = superagent
     .get(url)
     .query(queryParams)

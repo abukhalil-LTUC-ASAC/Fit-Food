@@ -8,6 +8,7 @@
         name="searchFood"
         id="searchFood"
         placeholder="e.g., tomato salad, potato, chocolate"
+        required
       />
       <button class="button-style hvr-back-pulse-green" type="submit">
         Search
@@ -16,25 +17,25 @@
         Refine search by
       </button>
     </div>
-    <div id='filter' class="secondDiv-home">
+    <div id="filter" class="secondDiv-home">
       <div>
         <p>Calorie</p>
         <label for="from">From</label>
-        <input id="from" type="number" placeholder="00.00" />
+        <input id="from" type="number" name="from" placeholder="00.00" />
         <label for="to">To</label>
-        <input id="to" type="number" placeholder="00.00" />
+        <input id="to" type="number" name="to" placeholder="00.00" />
         <a class="hvr-back-pulse-green" href="#">Calculate it</a>
       </div>
       <div>
         <p>Diet</p>
-        <input type="checkbox" id="fat" name="kind" value="Low-fat" />
-        <label for="fat">Low-fat</label>
-        <input type="checkbox" id="Sodium" name="kind" value="Low-Sodium" />
-        <label for="Sodium">Low-Sodium</label>
-        <input type="checkbox" id="Sugar" name="kind" value="Low-Sugar" />
-        <label for="Sugar">Low-Sugar</label>
-        <input type="checkbox" id="Vegetarian" name="kind" value="Low-Sugar" />
-        <label for="Vegetarian">Vegetarian</label>
+        <input type="checkbox" id="vegetarian" name="health" value="vegetarian" />
+        <label for="vegetarian">Vegetarian</label>
+        <input type="checkbox" id="fat" name="diet" value="low-fat" />
+        <label for="fat">Low fat</label>
+        <input type="checkbox" id="carb" name="diet" value="low-carb" />
+        <label for="carb">Low carb</label>
+        <input type="checkbox" id="high-protein" name="diet" value="high-protein" />
+        <label for="high-protein">High protein</label>
       </div>
     </div>
   </form>
