@@ -41,5 +41,6 @@ $('#form-calories').on('change', function() {
   }
 
   localStorage.setItem('total', total);
+  localStorage.getItem('total')
   $('#optimal-calories').html(total.toFixed(1));
 });
