@@ -49,8 +49,10 @@ app.listen(PORT, () => {
 app.get("/", homeHandler);
 
 // get search
-
 app.get("/search", searchHandler);
+
+//search result
+// app.get("/recipeResult", recipeResultHandler);
 
 // -------------------------------- CALLBACK FUNCTIONS --------------------------------
 
@@ -67,10 +69,15 @@ async function searchHandler(req, res) {
   let diet = req.query.diet;
   let health = req.query.health;
   let recipes = await getRecipes(ingredients, from, to, diet, health);
-  // res.send(req.query);
-  res.send(recipes);
-
+  res.render("pages/recipeResult", {
+    recipes: recipes
+  });
 }
+
+//Recipe result
+// function recipeResultHandler(req, res) {
+  // res.render("pages/recipeResult");
+// }
 
 // -------------------------------- API FUNCTIONS --------------------------------
 
@@ -80,9 +87,10 @@ function getRecipes(ingredients, from, to, diet, health) {
     q: ingredients,
     app_id: APP_ID,
     app_key: APP_KEY,
-    calories: from && to ? `${from}-${to}` : from ? `${from}+` : to ?  `${to}`: '0+',
+    calories:
+      from && to ? `${from}-${to}` : from ? `${from}+` : to ? `${to}` : "0+",
     diet: diet,
-    health: health
+    health: health,
   };
   console.log(queryParams);
   let result = superagent
