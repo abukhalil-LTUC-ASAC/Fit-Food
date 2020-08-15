@@ -67,7 +67,7 @@ async function searchHandler(req, res) {
   let health = req.query.health;
   let recipes = await getRecipes(ingredients, from, to, diet, health);
   res.render("pages/recipeResult", {
-    recipes: recipes
+    recipes: recipes,
   });
 }
 
@@ -105,7 +105,7 @@ function getRecipes(ingredients, from, to, diet, health) {
 // -------------------------------- DATA FUNCTIONS --------------------------------
 
 // -------------------------------- CONSTRUCTORS --------------------------------
-
+let id = 0;
 function Recipe(data) {
   this.title = data.recipe.label;
   this.image = data.recipe.image;
@@ -114,4 +114,5 @@ function Recipe(data) {
   this.servings = data.recipe.yield;
   this.instructions_url = data.recipe.url;
   this.calPerServ = Math.round(this.totalCalories / this.servings);
+  this.id += 1;
 }
