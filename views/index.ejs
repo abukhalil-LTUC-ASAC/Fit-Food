@@ -1,0 +1,42 @@
+<section class="gradiant-img-background">
+  <form action="/search" method="GET">
+    <div class="firstDiv-home">
+      <h2>Find somthing to eat</h2>
+      <input
+        class="input-style"
+        type="text"
+        name="searchFood"
+        id="searchFood"
+        placeholder="e.g., tomato salad, potato, chocolate"
+        required
+      />
+      <button class="button-style hvr-back-pulse-green" type="submit">
+        Search
+      </button>
+      <button id="refine" class="button-style-2 hvr-back-pulse" type="button">
+        Refine search by
+      </button>
+    </div>
+    <div id="filter" class="secondDiv-home">
+      <div>
+        <p>Calorie</p>
+        <label for="from">From</label>
+        <input id="from" type="number" name="from" placeholder="00.00" />
+        <label for="to">To</label>
+        <input id="to" type="number" name="to" placeholder="00.00" />
+        <a class="hvr-back-pulse-green" href="#">Calculate it</a>
+      </div>
+      <div>
+        <p>Diet</p>
+        <input type="checkbox" id="vegetarian" name="health" value="vegetarian" />
+        <label for="vegetarian">Vegetarian</label>
+        <input type="checkbox" id="fat" name="diet" value="low-fat" />
+        <label for="fat">Low fat</label>
+        <input type="checkbox" id="carb" name="diet" value="low-carb" />
+        <label for="carb">Low carb</label>
+        <input type="checkbox" id="high-protein" name="diet" value="high-protein" />
+        <label for="high-protein">High protein</label>
+      </div>
+    </div>
+  </form>
+</section>
