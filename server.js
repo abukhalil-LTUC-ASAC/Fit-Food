@@ -51,9 +51,6 @@ app.get("/", homeHandler);
 // get search
 app.get("/search", searchHandler);
 
-//search result
-// app.get("/recipeResult", recipeResultHandler);
-
 // -------------------------------- CALLBACK FUNCTIONS --------------------------------
 
 //home
@@ -73,11 +70,6 @@ async function searchHandler(req, res) {
     recipes: recipes
   });
 }
-
-//Recipe result
-// function recipeResultHandler(req, res) {
-  // res.render("pages/recipeResult");
-// }
 
 // -------------------------------- API FUNCTIONS --------------------------------
 
@@ -109,6 +101,8 @@ function getRecipes(ingredients, from, to, diet, health) {
     });
   return result;
 }
+
+// -------------------------------- DATA FUNCTIONS --------------------------------
 
 // -------------------------------- CONSTRUCTORS --------------------------------
 
