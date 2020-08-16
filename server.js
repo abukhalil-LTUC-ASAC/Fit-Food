@@ -199,6 +199,14 @@ function getMealsDB() {
     return { meals: result.rows };
   });
 }
+// https://api.edamam.com/api/nutrition-data?app_id=14955312&
+// app_key=b051ae90212f813de4b95da243ad9e8a&ingr=10%20apple 
+///----- 1 ingredient at a time with measuring 1cups%20apple
+
+// https://api.edamam.com/search?q=chicken&excluded=citrus&excluded=salt
+// &excluded=kosher%20salt&app_id=a49852e9&app_key=1d096000e385b476818f554e3b06870d&
+// from=0&to=3&calories=591-722&health=alcohol-free 
+///----- Excluded concatenated multiple times
 
 // -------------------------------- CONSTRUCTORS --------------------------------
 function Recipe(data) {
