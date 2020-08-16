@@ -10,7 +10,6 @@ const pg = require('pg');
 var methodOverride = require('method-override');
 
 const client = new pg.Client(process.env.DATABASE_URL);
-// var methodOverride = require('method-override');
 
 
 // initialize the server
@@ -45,16 +44,11 @@ app.use(express.urlencoded({ extended: true }));
 
 
 //set database and connect to the server
-const client = new pg.Client(process.env.DATABASE_URL);
 client.connect().then(() => {
   app.listen(PORT, () => {
     console.log("I am listening to port: ", PORT);
   });
-})
-client.on('error', err => console.error(err));
-
-
-
+});
 
 
 
@@ -130,7 +124,7 @@ async function addFav(req, res) {
 //calculate
 function calculateCalories(req, res) {
   res.render("pages/calorieCalculator");
-
+}
 //recipe details
 async function recipeDetailsHnadler(req, res) {
   let uri = req.query.uri;
@@ -224,4 +218,3 @@ function Recipe(data) {
   this.instructions_url = data.recipe.url;
   this.calPerServ = Math.round(this.totalCalories / this.servings);
 }
-
