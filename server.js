@@ -5,11 +5,10 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config(".env");
 const expressLayouts = require("express-ejs-layouts");
-const pg = require("pg");
-
-var methodOverride = require("method-override");
-
+const pg = require('pg');
 const client = new pg.Client(process.env.DATABASE_URL);
+var methodOverride = require('method-override');
+
 
 // initialize the server
 const app = express();
@@ -42,11 +41,11 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 
 //set database and connect to the server
-client.connect().then(() => {
+// client.connect().then(() => {
   app.listen(PORT, () => {
     console.log("I am listening to port: ", PORT);
   });
-});
+// })
 
 // -------------------------------- ROUTES --------------------------------
 
@@ -93,8 +92,8 @@ async function searchHandler(req, res) {
 
 //fav
 async function favHandler(req, res) {
-  let result = await getMealsDB();
-  res.render("pages/fav", { meals: result.meals });
+  // let result = await getMealsDB();
+  res.render("pages/fav", { meals: fav });
 }
 
 async function addFav(req, res) {
@@ -110,6 +109,7 @@ async function addFav(req, res) {
 function calculateCalories(req, res) {
   res.render("pages/calorieCalculator");
 }
+
 //recipe details
 async function recipeDetailsHnadler(req, res) {
   let uri = req.query.uri;
