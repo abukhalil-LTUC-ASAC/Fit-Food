@@ -7,7 +7,8 @@ require("dotenv").config(".env");
 const expressLayouts = require("express-ejs-layouts");
 const pg = require("pg");
 
-var methodOverride = require("method-override");
+const methodOverride = require('method-override');
+
 
 const client = new pg.Client(process.env.DATABASE_URL);
 
@@ -32,6 +33,7 @@ app.use(cors());
 // Use super agent
 const superagent = require("superagent");
 
+
 // view engine setup
 app.set("view engine", "ejs");
 
@@ -40,6 +42,9 @@ app.use(express.static("public"));
 
 //set the encode for post body request
 app.use(express.urlencoded({ extended: true }));
+
+// override http methods
+app.use(methodOverride("_method"));
 
 //set database and connect to the server
 client.connect().then(() => {
@@ -61,6 +66,9 @@ app.post("/addFav", addFav);
 
 // Fav route
 app.get("/fav", favHandler);
+
+// delete recipe from fav
+app.delete("/recipe/:id" , deleteFav);
 
 // get calculator
 app.get("/calculate", calculateCalories);
@@ -93,7 +101,7 @@ async function searchHandler(req, res) {
 
 //fav
 async function favHandler(req, res) {
-  let result = await getMealsDB();
+  let result = await getRecipeDB();
   res.render("pages/fav", { meals: result.meals });
 }
 
@@ -105,6 +113,13 @@ async function addFav(req, res) {
   recipeInfo.data = localDate;
   let result = await saveRecipeDB(recipeInfo);
 }
+
+async function deleteFav(req, res) {
+  const recipeId = req.params.id;
+  let result = await deleteRecipeDB(recipeId);
+}
+
+
 
 //calculate
 function calculateCalories(req, res) {
@@ -171,7 +186,7 @@ function getRecipeByURI(uri) {
 
 // -------------------------------- DATA FUNCTIONS --------------------------------
 
-// save meals into database
+// save recipe into database
 function saveRecipeDB(recipeInfo) {
   let SQL =
     "INSERT INTO recipes (title,totalCalories,ingredients,uri,servings,instructions_url,calPerServ,image,date ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING id";
@@ -192,13 +207,22 @@ function saveRecipeDB(recipeInfo) {
   });
 }
 
-// Get meals from database
-function getMealsDB() {
+// Get recipe from database
+function getRecipeDB() {
   let SQL = "SELECT * FROM recipes";
   return client.query(SQL).then((result) => {
     return { meals: result.rows };
   });
 }
+
+ // delete recipe from database
+function deleteRecipeDB(recipeId){
+  let SQL = `DELETE FROM recipes WHERE id=${recipeId}`;
+  return client.query(SQL).then(result => {
+    return result.rows;
+});
+}
+
 
 // -------------------------------- CONSTRUCTORS --------------------------------
 function Recipe(data) {
