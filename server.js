@@ -5,7 +5,8 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config(".env");
 const expressLayouts = require("express-ejs-layouts");
-// const pg = require('pg');
+const pg = require('pg');
+const client = new pg.Client(process.env.DATABASE_URL);
 // var methodOverride = require('method-override');
 
 // initialize the server
@@ -38,10 +39,12 @@ app.use(express.static("public"));
 //set the encode for post body request
 app.use(express.urlencoded({ extended: true }));
 
-// connect to the server
-app.listen(PORT, () => {
-  console.log("I am listening to port: ", PORT);
-});
+// connect to the database then server
+  app.listen(PORT, () => console.log("I am listening to port: ", PORT));
+
+// client.connect().then(() => {
+//   app.listen(PORT, () => console.log("I am listening to port: ", PORT));
+// });
 
 // -------------------------------- ROUTES --------------------------------
 
@@ -53,6 +56,9 @@ app.get("/search", searchHandler);
 
 // get calculator
 app.get("/calculate", calculateCalories);
+
+// post calories
+// app.get("/", homeHandler);
 
 // -------------------------------- CALLBACK FUNCTIONS --------------------------------
 

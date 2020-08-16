@@ -4,6 +4,11 @@
   flex-flow: wrap;
   border-radius: 10px;
   margin: 2% auto;
+  justify-content: center;
+}
+
+#calorie-card legend {
+  margin: 0 auto;
 }
 
 #form-calories fieldset {
@@ -36,8 +41,30 @@
 #calorie-card input[type="number"] {
   width: 100%;
   margin: 5px 0 15px 0;
+  padding: 7px;
+  border-radius: 15px;
 }
 
 .radio-container {
   margin: 20px;
+}
+
+#form-result form {
+  text-align: center;
+  margin-top: 10px;
+}
+
+#form-result form button {
+  background-color: beige;
+  border: none;
+  border-radius: 20px;
+  padding: 10px;
+}
+
+/* tabbing */
+
+.card-container ul {
+  margin: 0 auto;
+  display: flex;
+    flex-flow: nowrap;
 }

@@ -43,4 +43,10 @@ $('#form-calories').on('change', function() {
   localStorage.setItem('total', total);
   localStorage.getItem('total')
   $('#optimal-calories').html(total.toFixed(1));
+  $('input#baseCalories').val(total.toFixed(1));
 });
+
+// event listener on tabbing
+$( function() {
+  $("#tabs").tabs();
+} );
