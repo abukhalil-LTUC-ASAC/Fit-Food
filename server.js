@@ -77,7 +77,7 @@ async function searchHandler(req, res) {
 async function recipeDetailsHnadler(req, res) {
   let uri = req.query.uri;
   let recipe = await getRecipeByURI(uri);
-  res.send(recipe);
+  // res.send(recipe);
 }
 
 // -------------------------------- API FUNCTIONS --------------------------------
