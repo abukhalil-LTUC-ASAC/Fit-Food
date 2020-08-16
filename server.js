@@ -45,7 +45,6 @@ app.use(express.urlencoded({ extended: true }));
 
 
 //set database and connect to the server
-const client = new pg.Client(process.env.DATABASE_URL);
 client.connect().then(() => {
   app.listen(PORT, () => {
     console.log("I am listening to port: ", PORT);
@@ -112,25 +111,21 @@ async function favHandler(req, res) {
 
 async function addFav(req, res) {
   let recipeInfo = req.body;
-  let result = await saveMealDB();
-  res.redirect("/fav");
+  let dateNow =new Date()
+  let localDate = dateNow.toLocaleDateString();
+  recipeInfo.data=localDate;
+  let result = await saveRecipeDB(recipeInfo);
+// console.log(req.body);
+  // res.redirect("/fav");
+  // res.send(recipeInfo);
 }
 
-
-// app.post('/addFav', (req, res) => {
-//   let recipeInfo = req.body;
-//   let SQL = 'INSERT INTO meals (title,totalCalories,ingredients,date) VALUES ($1,$2,$3,$4) RETURNING id';
-//   let recipeArray = [recipeInfo.title, recipeInfo.totalCalories, recipeInfo.ingredients, recipeInfo.date];
-//   client.query(SQL, recipeArray).then(result => {
-//     res.redirect("/fav");
-// });
-// })
 
 
 //calculate
 function calculateCalories(req, res) {
   res.render("pages/calorieCalculator");
-
+}
 //recipe details
 async function recipeDetailsHnadler(req, res) {
   let uri = req.query.uri;
@@ -138,6 +133,7 @@ async function recipeDetailsHnadler(req, res) {
   res.send(recipe);
 
 }
+
 
 
 // -------------------------------- API FUNCTIONS --------------------------------
@@ -196,18 +192,18 @@ function getRecipeByURI(uri) {
 // -------------------------------- DATA FUNCTIONS --------------------------------
 
 // save meals into database
-function saveMealDB() {
-  let SQL = 'INSERT INTO meals (title,totalCalories,ingredients,date) VALUES ($1,$2,$3,$4) RETURNING id';
-  let recipeArray = [recipeInfo.title, recipeInfo.totalCalories, recipeInfo.ingredients, recipeInfo.date];
+function saveRecipeDB(recipeInfo) {
+  let SQL = 'INSERT INTO recipes (title,totalCalories,ingredients,uri,servings,instructions_url,calPerServ,image,date ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING id';
+  let recipeArray = [recipeInfo.title, recipeInfo.totalCalories, recipeInfo.ingredients,recipeInfo.uri, recipeInfo.servings, recipeInfo.instructions_url,recipeInfo.calPerServ,recipeInfo.image,recipeInfo.data ];
   return client.query(SQL, recipeArray).then(result => {
     console.log(result)
-    return result;
+    // return result.rows;
   });
 }
 
 // Get meals from database
 function getMealsDB() {
-  let SQL = "SELECT * FROM meals";
+  let SQL = "SELECT * FROM recipes";
   return client.query(SQL).then((result) => {
     return { meals: result.rows }
   });
