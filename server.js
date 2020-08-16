@@ -54,11 +54,15 @@ app.get("/", homeHandler);
 // get search
 app.get("/search", searchHandler);
 
+
 // get calculator
 app.get("/calculate", calculateCalories);
 
 // post calories
 // app.get("/", homeHandler);
+
+// get recipe by uri
+app.get("/recipeDetails/", recipeDetailsHnadler);
 
 // -------------------------------- CALLBACK FUNCTIONS --------------------------------
 
@@ -76,17 +80,26 @@ async function searchHandler(req, res) {
   let health = req.query.health;
   let recipes = await getRecipes(ingredients, from, to, diet, health);
   res.render("pages/recipeResult", {
-    recipes: recipes
+    recipes: recipes,
   });
 }
+
 
 //calculate
 function calculateCalories(req, res) {
   res.render("pages/calorieCalculator");
+
+//recipe details
+async function recipeDetailsHnadler(req, res) {
+  let uri = req.query.uri;
+  let recipe = await getRecipeByURI(uri);
+  res.send(recipe);
+
 }
 
 // -------------------------------- API FUNCTIONS --------------------------------
 
+//search recipe API
 function getRecipes(ingredients, from, to, diet, health) {
   let url = "https://api.edamam.com/search";
   let queryParams = {
@@ -98,7 +111,6 @@ function getRecipes(ingredients, from, to, diet, health) {
     diet: diet,
     health: health,
   };
-  console.log(queryParams);
   let result = superagent
     .get(url)
     .query(queryParams)
@@ -116,11 +128,33 @@ function getRecipes(ingredients, from, to, diet, health) {
   return result;
 }
 
+// get recipe by it's uri
+function getRecipeByURI(uri) {
+  let url = "https://api.edamam.com/search";
+  let queryParams = {
+    r: uri,
+    app_id: APP_ID,
+    app_key: APP_KEY
+   
+  };
+  console.log(queryParams);
+  let result = superagent
+    .get(url)
+    .query(queryParams)
+    .then((res) => {
+     return new Recipe({recipe: res.body[0]});
+    })
+    .catch((error) => {
+      console.log(error)
+    });
+  return result;
+}
+
 // -------------------------------- DATA FUNCTIONS --------------------------------
 
 // -------------------------------- CONSTRUCTORS --------------------------------
-
 function Recipe(data) {
+  this.uri = encodeURIComponent(data.recipe.uri);
   this.title = data.recipe.label;
   this.image = data.recipe.image;
   this.ingredients = data.recipe.ingredientLines;
@@ -129,3 +163,4 @@ function Recipe(data) {
   this.instructions_url = data.recipe.url;
   this.calPerServ = Math.round(this.totalCalories / this.servings);
 }
+
