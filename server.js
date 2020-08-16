@@ -6,11 +6,9 @@ const cors = require("cors");
 require("dotenv").config(".env");
 const expressLayouts = require("express-ejs-layouts");
 const pg = require('pg');
-
-var methodOverride = require('method-override');
-
-const client = new pg.Client(process.env.DATABASE_URL);
+// const client = new pg.Client(process.env.DATABASE_URL);
 // var methodOverride = require('method-override');
+
 
 
 // initialize the server
@@ -45,13 +43,11 @@ app.use(express.urlencoded({ extended: true }));
 
 
 //set database and connect to the server
-const client = new pg.Client(process.env.DATABASE_URL);
-client.connect().then(() => {
+// client.connect().then(() => {
   app.listen(PORT, () => {
     console.log("I am listening to port: ", PORT);
   });
-})
-client.on('error', err => console.error(err));
+// })
 
 
 
@@ -106,13 +102,15 @@ async function searchHandler(req, res) {
 
 //fav
 async function favHandler(req, res) {
-  let result = await getMealsDB();
-  res.render("pages/fav", { meals: result.meals });
+  // let result = await getMealsDB();
+  res.render("pages/fav", { meals: fav });
 }
 
+let fav = [];
 async function addFav(req, res) {
   let recipeInfo = req.body;
-  let result = await saveMealDB();
+  fav.push(recipeInfo);
+  // let result = await saveMealDB();
   res.redirect("/fav");
 }
 
@@ -123,13 +121,14 @@ async function addFav(req, res) {
 //   let recipeArray = [recipeInfo.title, recipeInfo.totalCalories, recipeInfo.ingredients, recipeInfo.date];
 //   client.query(SQL, recipeArray).then(result => {
 //     res.redirect("/fav");
-// });
+//  });
 // })
 
 
 //calculate
 function calculateCalories(req, res) {
   res.render("pages/calorieCalculator");
+}
 
 //recipe details
 async function recipeDetailsHnadler(req, res) {

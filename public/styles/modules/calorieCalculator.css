@@ -68,3 +68,107 @@
   display: flex;
     flex-flow: nowrap;
 }
+
+/* profile card */
+
+#profile-card {
+  height: 480px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 40px 1fr 20px 1fr 1fr;
+  grid-template-rows: 60px 1fr 1fr 20px 1fr 1fr;
+}
+
+#profile-card > * {
+  padding: 20px;
+}
+
+.de1 {
+  grid-row: 2/4;
+  grid-column: 1/6;
+}
+
+.de2 {
+  grid-row: 5/7;
+  grid-column: 1/4;
+}
+
+.de3 {
+  grid-row: 5/7;
+  grid-column: 5/9;
+}
+
+.de4 {
+  grid-row: 2/4;
+  grid-column: 7/9;
+}
+
+.de4 img{
+  object-fit: cover;
+  width: 100%;
+  max-height: 100%;
+}
+
+/* Human Body */
+
+.human-body {
+  width: 100px;
+  position: relative;
+  padding-top: 240px;
+  height: 130px;
+  display: block;
+  margin: 40px auto;
+}
+.human-body svg:hover {
+  cursor: pointer;
+}
+.human-body svg:hover path {
+  fill: #ff7d16;
+}
+.human-body svg {
+  position: absolute;
+  left: 50%;
+  fill: #57c9d5;
+}
+.human-body svg.head {
+  margin-left: -28.5px;
+  top: -6px;
+}
+.human-body svg.shoulder {
+  margin-left: -53.5px;
+  top: 69px;
+}
+.human-body svg.arm {
+  margin-left: -78px;
+  top: 112px;
+}
+.human-body svg.cheast {
+  margin-left: -43.5px;
+  top: 88px;
+}
+.human-body svg.stomach {
+  margin-left: -37.5px;
+  top: 130px;
+}
+.human-body svg.legs {
+  margin-left: -46.5px;
+  top: 205px;
+  z-index: 9999;
+}
+.human-body svg.hands {
+  margin-left: -102.5px;
+  top: 224px;
+}
+#area {
+  display: block;
+  width: 100%;
+  clear: both;
+  padding: 10px;
+  text-align: center;
+  font-size: 25px;
+  font-family: Courier New;
+  color: #a5a5a5;
+}
+
+#area #data {
+  color: black;
+}
