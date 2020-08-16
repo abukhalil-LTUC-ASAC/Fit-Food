@@ -5,7 +5,7 @@
     <%recipes.forEach((recipe) => {%>
     <article class="card card--1">
       <div class="card__info-hover">
-        <a class="fav" href="#">
+        <a class="fav" href="/addFav/"> 
           <i class="far fa-heart card__like favIcon"></i>
         </a>
         <!-- <div class="card__clock-info">
@@ -16,7 +16,7 @@
       <div class="card__img">
           <img class="card__img" src="<%=recipe.image%>" alt="img">
       </div>
-      <a href="#" class="card_link">
+      <a href="/recipeDetails/?uri=<%=recipe.uri%>" class="card_link">
         <div class="card__img--hover">
             <img class="card__img--hover" src="<%=recipe.image%>" alt="img">
         </div>

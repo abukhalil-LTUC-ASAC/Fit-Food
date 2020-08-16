@@ -1,0 +1,70 @@
+
+#calorie-card {
+  display: flex;
+  flex-flow: wrap;
+  border-radius: 10px;
+  margin: 2% auto;
+  justify-content: center;
+}
+
+#calorie-card legend {
+  margin: 0 auto;
+}
+
+#form-calories fieldset {
+  margin: 40px 20px;
+  padding: 20px;
+}
+
+#form-calories label {
+
+}
+
+#form-result {
+  margin: 20px;
+  background-color: ivory;
+  border-radius: 10px;
+  padding: 60px;
+  align-self: center;
+}
+
+#form-result h1 {
+  font-size: 10vw;
+  text-align: center;
+}
+#form-result h2 {
+  text-align: center;
+  font-size: 20px;
+  margin-top: 20%;
+}
+
+#calorie-card input[type="number"] {
+  width: 100%;
+  margin: 5px 0 15px 0;
+  padding: 7px;
+  border-radius: 15px;
+}
+
+.radio-container {
+  margin: 20px;
+}
+
+#form-result form {
+  text-align: center;
+  margin-top: 10px;
+}
+
+#form-result form button {
+  background-color: beige;
+  border: none;
+  border-radius: 20px;
+  padding: 10px;
+}
+
+/* tabbing */
+
+.card-container ul {
+  margin: 0 auto;
+  display: flex;
+    flex-flow: nowrap;
+}

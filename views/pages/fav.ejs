@@ -1,0 +1,21 @@
+<main class="tableContainer">
+    <section class="table">
+        <h2 class="tableTitle">My Fit Food</h2>
+        <table class = "myFitFoodTable">
+            <tr class = "tableheadrerRow">
+                <th class = "tableHeader">Recipe Name</th>
+                <th class = "tableHeader" >Calories</th>
+                <th class = "tableHeader">Ingredients</th>
+                <th class = "tableHeader" >Date</th>
+            </tr>
+            <%meals.forEach((meal) => {%>
+            <tr class = "tableDataRow">
+                <td class = "tableData"><%= meal.title%></td>
+                <td class = "tableData"><%= meal.totalCalories %></td>
+                <td class = "tableData"><%= meal.ingredients %></td>
+                <td class = "tableData"><%= meal.date %></td>
+            </tr>
+        <%})%>
+        </table>
+    </section>
+</main>
