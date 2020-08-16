@@ -50,3 +50,9 @@ $('#form-calories').on('change', function() {
 $( function() {
   $("#tabs").tabs();
 } );
+
+
+$("#instructions").click(function(e){
+  e.preventDefault();
+  window.open = "insrtucions_url";    
+});
