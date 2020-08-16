@@ -39,23 +39,32 @@
       </div>
     </div>
   </form>
+
+  <script id="addTemplate" type="text/x-mustach-template">
+    <input class="input-list-style" type="text" name="{{name}}"
+      placeholder="Ingredient" required/>
+    <input class="input-list-style" type="number" name="{{amount}}"
+      placeholder="Amount" required/>
+    <select class="input-list-style" id="{{measure}}"></select>
+  </script>
+
   <hr>
-  <form action="/search" method="GET">
+  <form action="#" method="GET">
     <div class="firstDiv-home">
       <h2>Or add ingredients to cook!</h2>
-      <input
-        class="input-style"
-        type="text"
-        name="searchFood"
-        id="searchFood"
-        placeholder="e.g., tomato salad, potato, chocolate"
-        required
-      />
+      <div class="template-add-area">      
+        <input class="input-list-style" type="text" name="searchIngredient0"
+          placeholder="Ingredient" required/>
+        <input class="input-list-style" type="number" name="ingredientAmount0"
+          placeholder="Amount" required/>
+        <select class="input-list-style" id="ingredientMeasure0"></select>
+      </div>
+
       <button class="button-style hvr-back-pulse-green" type="submit">
         Search
       </button>
-      <button id="refine" class="button-style-2 hvr-back-pulse" type="button">
-        Refine search by
+      <button id="addIngredient" class="button-style-2 hvr-back-pulse" type="button">
+        Add one more ingredient
       </button>
     </div>
   </form>
