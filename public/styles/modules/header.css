@@ -1,14 +1,4 @@
-/* -------------- HEADER SECTION -------------- */
-header {
-    /* z-index: 9999; */
-    background-color: #fdfffc;
-    padding: 20px 100px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.07);
-  }
-  
+
   header img {
     width: 200px;
     height: auto;

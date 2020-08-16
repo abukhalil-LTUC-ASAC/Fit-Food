@@ -6,9 +6,8 @@ const cors = require("cors");
 require("dotenv").config(".env");
 const expressLayouts = require("express-ejs-layouts");
 const pg = require('pg');
-// const client = new pg.Client(process.env.DATABASE_URL);
-// var methodOverride = require('method-override');
-
+const client = new pg.Client(process.env.DATABASE_URL);
+var methodOverride = require('method-override');
 
 
 // initialize the server
@@ -41,18 +40,12 @@ app.use(express.static("public"));
 //set the encode for post body request
 app.use(express.urlencoded({ extended: true }));
 
-
 //set database and connect to the server
 // client.connect().then(() => {
   app.listen(PORT, () => {
     console.log("I am listening to port: ", PORT);
   });
 // })
-
-
-
-
-
 
 // -------------------------------- ROUTES --------------------------------
 
@@ -68,7 +61,6 @@ app.post("/addFav", addFav);
 // Fav route
 app.get("/fav", favHandler);
 
-
 // get calculator
 app.get("/calculate", calculateCalories);
 
@@ -77,7 +69,6 @@ app.get("/calculate", calculateCalories);
 
 // get recipe by uri
 app.get("/recipeDetails/", recipeDetailsHnadler);
-
 
 // -------------------------------- CALLBACK FUNCTIONS --------------------------------
 
@@ -99,31 +90,20 @@ async function searchHandler(req, res) {
   });
 }
 
-
 //fav
 async function favHandler(req, res) {
   // let result = await getMealsDB();
   res.render("pages/fav", { meals: fav });
 }
 
-let fav = [];
 async function addFav(req, res) {
   let recipeInfo = req.body;
-  fav.push(recipeInfo);
-  // let result = await saveMealDB();
-  res.redirect("/fav");
+  recipeInfo.ingredients = recipeInfo.ingredients.split(",");
+  let dateNow = new Date();
+  let localDate = dateNow.toLocaleDateString();
+  recipeInfo.data = localDate;
+  let result = await saveRecipeDB(recipeInfo);
 }
-
-
-// app.post('/addFav', (req, res) => {
-//   let recipeInfo = req.body;
-//   let SQL = 'INSERT INTO meals (title,totalCalories,ingredients,date) VALUES ($1,$2,$3,$4) RETURNING id';
-//   let recipeArray = [recipeInfo.title, recipeInfo.totalCalories, recipeInfo.ingredients, recipeInfo.date];
-//   client.query(SQL, recipeArray).then(result => {
-//     res.redirect("/fav");
-//  });
-// })
-
 
 //calculate
 function calculateCalories(req, res) {
@@ -135,9 +115,7 @@ async function recipeDetailsHnadler(req, res) {
   let uri = req.query.uri;
   let recipe = await getRecipeByURI(uri);
   res.send(recipe);
-
 }
-
 
 // -------------------------------- API FUNCTIONS --------------------------------
 
@@ -176,18 +154,17 @@ function getRecipeByURI(uri) {
   let queryParams = {
     r: uri,
     app_id: APP_ID,
-    app_key: APP_KEY
-   
+    app_key: APP_KEY,
   };
   console.log(queryParams);
   let result = superagent
     .get(url)
     .query(queryParams)
     .then((res) => {
-     return new Recipe({recipe: res.body[0]});
+      return new Recipe({ recipe: res.body[0] });
     })
     .catch((error) => {
-      console.log(error)
+      console.log(error);
     });
   return result;
 }
@@ -195,20 +172,31 @@ function getRecipeByURI(uri) {
 // -------------------------------- DATA FUNCTIONS --------------------------------
 
 // save meals into database
-function saveMealDB() {
-  let SQL = 'INSERT INTO meals (title,totalCalories,ingredients,date) VALUES ($1,$2,$3,$4) RETURNING id';
-  let recipeArray = [recipeInfo.title, recipeInfo.totalCalories, recipeInfo.ingredients, recipeInfo.date];
-  return client.query(SQL, recipeArray).then(result => {
-    console.log(result)
-    return result;
+function saveRecipeDB(recipeInfo) {
+  let SQL =
+    "INSERT INTO recipes (title,totalCalories,ingredients,uri,servings,instructions_url,calPerServ,image,date ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING id";
+  let recipeArray = [
+    recipeInfo.title,
+    recipeInfo.totalCalories,
+    recipeInfo.ingredients,
+    recipeInfo.uri,
+    recipeInfo.servings,
+    recipeInfo.instructions_url,
+    recipeInfo.calPerServ,
+    recipeInfo.image,
+    recipeInfo.data,
+  ];
+  return client.query(SQL, recipeArray).then((result) => {
+    console.log(result);
+    // return result.rows;
   });
 }
 
 // Get meals from database
 function getMealsDB() {
-  let SQL = "SELECT * FROM meals";
+  let SQL = "SELECT * FROM recipes";
   return client.query(SQL).then((result) => {
-    return { meals: result.rows }
+    return { meals: result.rows };
   });
 }
 
@@ -223,4 +211,3 @@ function Recipe(data) {
   this.instructions_url = data.recipe.url;
   this.calPerServ = Math.round(this.totalCalories / this.servings);
 }
-
