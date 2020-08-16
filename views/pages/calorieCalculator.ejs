@@ -1,0 +1,49 @@
+<main class="card-container">
+  <div id="tabs">
+    <ul>
+      <li><a href="#tabs-1">Base Calorie Calculation</a></li>
+      <li><a href="#tabs-2">My Calorie Profile</a></li>
+    </ul>
+    <div id="tabs-1">
+      <section id="calorie-card">
+        <form id="form-calories">
+          <fieldset><legend>Calorie Calculator</legend>
+            <label for="age">Age</label>
+            <input id="age" name="age" type="number" placeholder="e.g. 19 Years" required><br>
+            <label for="weight">Weight</label>
+            <input id="weight" name="weight" type="number" placeholder="In Kilos" required><br>
+            <label for="height">Height</label>
+            <input id="height" name="height" type="number" placeholder="In centimeters" required><br>
+            <label for="gender">Gender</label>
+            <div class="radio-container">
+              <input type="radio" id="male" name="gender" value="male" required>
+              <label for="male">Male</label>
+              <input type="radio" id="female" name="gender" value="female">
+              <label for="female">Female</label>
+            </div>
+          </fieldset> 
+        </form>
+        <div id="form-result">
+          <h1 id="optimal-calories">0.0</h1>
+          <h2>calorie per day</h2>
+          <form action="/" method="POST">
+            <input type="hidden" name="baseCalories" id="baseCalories" value="">
+            <button type="submit">Add Base Calorie</button>
+          </form>
+        </div>
+        <!-- <label for="searchTerm">Search for:</label>
+        <input id="searchTerm" type="text" size="30" value="" name="searchTerm">
+        <select title="Search in" id="scope">
+        </select>  -->
+      </section>
+    </div>
+
+    <div id="tabs-2">
+      <section id="calorie-card">
+        <p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+      </section>
+    </div>
+  </div>
+  
+</main>
+
