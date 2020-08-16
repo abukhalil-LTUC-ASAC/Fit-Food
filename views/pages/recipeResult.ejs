@@ -6,7 +6,6 @@
     <article class="card card--1">
       <div class="card__info-hover">
         <form class="fav" action="/addFav" method="POST">
-          
           <input type="hidden" value="<%=recipe.title%>" name="title">
           <input type="hidden" value="<%=recipe.ingredients%>" name="ingredients">
           <input type="hidden" value="<%=recipe.totalCalories%>" name="totalCalories">
@@ -14,7 +13,7 @@
           <input type="hidden" value="<%=recipe.servings%>" name="servings">
           <input type="hidden" value="<%=recipe.instructions_url%>" name="instructions_url">
           <input type="hidden" value="<%=recipe.calPerServ%>" name="calPerServ">
-          
+          <input type="hidden" value="<%=recipe.image%>" name="image">
           <button type="submit" class="fav"> 
             <i class="far fa-heart card__like favIcon"></i>
           </button>
