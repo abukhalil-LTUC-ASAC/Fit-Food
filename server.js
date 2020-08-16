@@ -5,12 +5,11 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config(".env");
 const expressLayouts = require("express-ejs-layouts");
-const pg = require('pg');
+const pg = require("pg");
 
-var methodOverride = require('method-override');
+var methodOverride = require("method-override");
 
 const client = new pg.Client(process.env.DATABASE_URL);
-
 
 // initialize the server
 const app = express();
@@ -42,15 +41,12 @@ app.use(express.static("public"));
 //set the encode for post body request
 app.use(express.urlencoded({ extended: true }));
 
-
 //set database and connect to the server
 client.connect().then(() => {
   app.listen(PORT, () => {
     console.log("I am listening to port: ", PORT);
   });
 });
-
-
 
 // -------------------------------- ROUTES --------------------------------
 
@@ -66,7 +62,6 @@ app.post("/addFav", addFav);
 // Fav route
 app.get("/fav", favHandler);
 
-
 // get calculator
 app.get("/calculate", calculateCalories);
 
@@ -75,7 +70,6 @@ app.get("/calculate", calculateCalories);
 
 // get recipe by uri
 app.get("/recipeDetails/", recipeDetailsHnadler);
-
 
 // -------------------------------- CALLBACK FUNCTIONS --------------------------------
 
@@ -97,7 +91,6 @@ async function searchHandler(req, res) {
   });
 }
 
-
 //fav
 async function favHandler(req, res) {
   let result = await getMealsDB();
@@ -106,16 +99,12 @@ async function favHandler(req, res) {
 
 async function addFav(req, res) {
   let recipeInfo = req.body;
-  let dateNow =new Date()
+  recipeInfo.ingredients = recipeInfo.ingredients.split(",");
+  let dateNow = new Date();
   let localDate = dateNow.toLocaleDateString();
-  recipeInfo.data=localDate;
+  recipeInfo.data = localDate;
   let result = await saveRecipeDB(recipeInfo);
-// console.log(req.body);
-  // res.redirect("/fav");
-  // res.send(recipeInfo);
 }
-
-
 
 //calculate
 function calculateCalories(req, res) {
@@ -126,10 +115,7 @@ async function recipeDetailsHnadler(req, res) {
   let uri = req.query.uri;
   let recipe = await getRecipeByURI(uri);
   res.send(recipe);
-
 }
-
-
 
 // -------------------------------- API FUNCTIONS --------------------------------
 
@@ -168,18 +154,17 @@ function getRecipeByURI(uri) {
   let queryParams = {
     r: uri,
     app_id: APP_ID,
-    app_key: APP_KEY
-   
+    app_key: APP_KEY,
   };
   console.log(queryParams);
   let result = superagent
     .get(url)
     .query(queryParams)
     .then((res) => {
-     return new Recipe({recipe: res.body[0]});
+      return new Recipe({ recipe: res.body[0] });
     })
     .catch((error) => {
-      console.log(error)
+      console.log(error);
     });
   return result;
 }
@@ -188,10 +173,21 @@ function getRecipeByURI(uri) {
 
 // save meals into database
 function saveRecipeDB(recipeInfo) {
-  let SQL = 'INSERT INTO recipes (title,totalCalories,ingredients,uri,servings,instructions_url,calPerServ,image,date ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING id';
-  let recipeArray = [recipeInfo.title, recipeInfo.totalCalories, recipeInfo.ingredients,recipeInfo.uri, recipeInfo.servings, recipeInfo.instructions_url,recipeInfo.calPerServ,recipeInfo.image,recipeInfo.data ];
-  return client.query(SQL, recipeArray).then(result => {
-    console.log(result)
+  let SQL =
+    "INSERT INTO recipes (title,totalCalories,ingredients,uri,servings,instructions_url,calPerServ,image,date ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING id";
+  let recipeArray = [
+    recipeInfo.title,
+    recipeInfo.totalCalories,
+    recipeInfo.ingredients,
+    recipeInfo.uri,
+    recipeInfo.servings,
+    recipeInfo.instructions_url,
+    recipeInfo.calPerServ,
+    recipeInfo.image,
+    recipeInfo.data,
+  ];
+  return client.query(SQL, recipeArray).then((result) => {
+    console.log(result);
     // return result.rows;
   });
 }
@@ -200,7 +196,7 @@ function saveRecipeDB(recipeInfo) {
 function getMealsDB() {
   let SQL = "SELECT * FROM recipes";
   return client.query(SQL).then((result) => {
-    return { meals: result.rows }
+    return { meals: result.rows };
   });
 }
 
