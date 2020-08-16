@@ -1,21 +1,29 @@
 <main class="tableContainer">
     <section class="table">
         <h2 class="tableTitle">My Fit Food</h2>
-        <table class = "myFitFoodTable">
-            <tr class = "tableheadrerRow">
-                <th class = "tableHeader">Recipe Name</th>
-                <th class = "tableHeader" >Calories</th>
-                <th class = "tableHeader">Ingredients</th>
-                <th class = "tableHeader" >Date</th>
+        <table class="myFitFoodTable">
+            <tr class="tableheadrerRow">
+                <th class="tableHeader">Recipe Name</th>
+                <th class="tableHeader">Calories</th>
+                <th class="tableHeader">Ingredients</th>
+                <th class="tableHeader">Date</th>
+                <th class="tableHeader">Remove From My List </th>
+                <th class="tableHeader">Go To My Recipe</th>
             </tr>
             <%meals.forEach((meal) => {%>
-            <tr class = "tableDataRow">
-                <td class = "tableData"><%= meal.title%></td>
-                <td class = "tableData"><%= meal.totalCalories %></td>
-                <td class = "tableData"><%= meal.ingredients %></td>
-                <td class = "tableData"><%= meal.date %></td>
+            <tr class="tableDataRow">
+                <td class="tableData"><%= meal.title%></td>
+                <td class="tableData"><%= meal.totalcalories %></td>
+                <td class="tableData"><%= meal.ingredients.length %></td>
+                <td class="tableData"><%= meal.date %></td>
+                <td class="tableData">
+                    <form action="/recipe/<%= meal.id %>?_method=delete" method="POST">
+                        <button class = "deleteButton" type="submit"><i class="fas fa-trash"></i></button>
+                    </form>
+                </td>
+                <td class="tableData"><a class = "linkTag" href="/recipeDetails/?uri=<%= meal.uri %>">Link</a></td>
             </tr>
-        <%})%>
+            <%})%>
         </table>
     </section>
 </main>
