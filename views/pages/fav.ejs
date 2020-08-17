@@ -18,10 +18,12 @@
                 <td class="tableData"><%= meal.date %></td>
                 <td class="tableData">
                     <form action="/recipe/<%= meal.id %>?_method=delete" method="POST">
-                        <button class = "deleteButton" type="submit"><i class="fas fa-trash"></i></button>
+                        <button class="deleteButton" type="submit"><i class="fas fa-trash"></i></button>
+
                     </form>
+
                 </td>
-                <td class="tableData"><a class = "linkTag" href="/recipeDetails/?uri=<%= meal.uri %>">Link</a></td>
+                <td class="tableData"><a class="linkTag" href="/recipeDetails/?uri=<%= meal.uri %>">Link</a></td>
             </tr>
             <%})%>
         </table>

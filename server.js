@@ -123,7 +123,8 @@ async function addFav(req, res) {
 async function deleteFav(req, res) {
   const recipeId = req.params.id;
   let result = await deleteRecipeDB(recipeId);
-  res.redirect("/fav");
+  res.redirect('/fav');
+
 }
 
 
@@ -271,7 +272,7 @@ function getRecipeDB() {
 function deleteRecipeDB(recipeId){
   let SQL = `DELETE FROM recipes WHERE id=${recipeId}`;
   return client.query(SQL).then(result => {
-    return result.rows;
+    return { meals: result.rows };
 });
 }
 

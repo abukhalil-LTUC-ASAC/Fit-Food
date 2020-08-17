@@ -56,6 +56,11 @@ function formCaloriesListener() {
 // event listener on tabbing
 function listeners() {
   $("#tabs").tabs();
+
+
+
+  
+
   $('.optimal-calories').html(parseInt(localStorage.getItem('total')).toFixed(1));
   $('#addIngredient').click(renderAddIngredient);
 }
@@ -88,4 +93,5 @@ function renderAddIngredient() {
 
   generateOptions(indexOption);
 }
+
 
