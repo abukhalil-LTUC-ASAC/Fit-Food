@@ -82,8 +82,13 @@ app.post("/dataIng", renderIngredients);
 // get recipe by uri
 app.get("/recipeDetails/", recipeDetailsHandler);
 
+
+// aboutus route
+app.get("/aboutus",aboutusHandler);
+
 //Error route 
 app.all('*' , errorHandler);
+
 
 // all other routes
 // app.get("*", errorHandler);
@@ -95,9 +100,15 @@ function homeHandler(req, res) {
   res.render("index");
 }
 
+
+//aboutus
+function aboutusHandler(req, res){
+  res.render("pages/aboutus");
+
 //error
 function errorHandler(req,res) {
   res.status(404).render('pages/error');
+
 }
 
 //search
