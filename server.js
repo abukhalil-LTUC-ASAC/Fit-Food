@@ -5,10 +5,10 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config(".env");
 const expressLayouts = require("express-ejs-layouts");
-
 const pg = require("pg");
 const methodOverride = require('method-override');
 const client = new pg.Client(process.env.DATABASE_URL);
+
 
 
 // initialize the server
@@ -132,7 +132,6 @@ async function deleteFav(req, res) {
 function calculateCalories(req, res) {
   res.render("pages/calorieCalculator");
 }
-
 // render result 
 async function renderIngredients(req, res) {
     let length = Math.floor(Object.keys(req.body).length/3) - 1;
@@ -151,12 +150,11 @@ async function renderIngredients(req, res) {
 
     }
 }
-
 //recipe details
 async function recipeDetailsHandler(req, res) {
   let uri = req.query.uri;
   let recipe = await getRecipeByURI(uri);
-  res.send(recipe);
+  res.render('pages/recipeDetail', {recipe: recipe});
 }
 
 // -------------------------------- API FUNCTIONS --------------------------------
