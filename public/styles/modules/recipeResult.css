@@ -166,3 +166,8 @@
 .favIcon:active{
 color: #f46b45;
 }
+
+.deleteButton{
+  background-color: transparent;
+  border: none;
+}
