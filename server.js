@@ -130,6 +130,7 @@ async function addFav(req, res) {
 //calculate
 function calculateCalories(req, res) {
   res.render("pages/calorieCalculator");
+}
 
 //recipe details
 async function recipeDetailsHnadler(req, res) {
