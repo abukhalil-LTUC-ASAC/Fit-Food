@@ -1,21 +1,51 @@
-<main class="tableContainer">
-    <section class="table">
-        <h2 class="tableTitle">My Fit Food</h2>
-        <table class = "myFitFoodTable">
-            <tr class = "tableheadrerRow">
-                <th class = "tableHeader">Recipe Name</th>
-                <th class = "tableHeader" >Calories</th>
-                <th class = "tableHeader">Ingredients</th>
-                <th class = "tableHeader" >Date</th>
-            </tr>
-            <%meals.forEach((meal) => {%>
-            <tr class = "tableDataRow">
-                <td class = "tableData"><%= meal.title%></td>
-                <td class = "tableData"><%= meal.totalCalories %></td>
-                <td class = "tableData"><%= meal.ingredients %></td>
-                <td class = "tableData"><%= meal.date %></td>
-            </tr>
-        <%})%>
-        </table>
+
+<main class="card-container">
+    
+    <section class="cards">
+        <%meals.forEach((meal) => {%>
+      <article class="card card--1">
+        <div class="card__info-hover">
+            <form action="/recipe/<%= meal.id %>?_method=delete" method="POST">
+            <input type="hidden" value="<%=meal.title%>" name="title">
+            <input type="hidden" value="<%=meal.ingredients%>" name="ingredients">
+            <input type="hidden" value="<%=meal.totalCalories%>" name="totalCalories">
+            <input type="hidden" value="<%=meal.uri%>" name="uri">
+            <input type="hidden" value="<%=meal.servings%>" name="servings">
+            <input type="hidden" value="<%=meal.instructions_url%>" name="instructions_url">
+            <input type="hidden" value="<%=meal.calPerServ%>" name="calPerServ">
+            <input type="hidden" value="<%=meal.image%>" name="image">
+            <button class="deleteButton" type="submit" class="fav"> 
+                <i class="fas fa-trash"></i>
+            </button>
+          </form>
+        </div>
+        <div class="card__img">
+            <img class="card__img" src="<%=meal.image%>" alt="img">
+        </div>
+        <a href="/recipeDetails/?uri=<%=meal.uri%>" class="card_link">
+          <div class="card__img--hover">
+              <img class="card__img--hover" src="<%=meal.image%>" alt="img">
+          </div>
+        </a>
+        <div class="card__info">
+          <span class="card__category"> Recipe</span>
+          <h3 class="card__title"><%=meal.title%></h3>
+          <div class="card-info">
+            <span class="card__by"
+              ><i class="fas fa-fire"></i
+              ><a  class="card__author" title="author"
+                ><%=meal.calPerServ%> Calories</a
+              ></span
+            >
+            <span class="card__by"
+              ><i class="far fa-clipboard"></i
+              ><a class="card__author" title="author"
+                ><%=meal.ingredients.length%> Ingredients</a
+              ></span
+            >
+          </div>
+        </div>
+      </article>
+      <%});%>
     </section>
-</main>
+  </main>

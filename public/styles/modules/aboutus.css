@@ -1,0 +1,106 @@
+
+.ourMission , .teamMembers{
+    text-align: center;
+    margin-bottom: 6%;
+    margin-top: 6%;
+    font-size: 45px;
+}
+.aboutAppPar{
+    float: left;
+    font-size: 30px;
+    margin-left: 9%;
+    margin-right: 3%;
+    margin-top: 6%;
+    
+}
+.card {
+    /* Add shadows to create the "card" effect */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    display: inline-block;
+  }
+  
+  /* On mouse-over, add a deeper shadow */
+  .card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  }
+  
+  /* Add some padding inside the card container */
+  .aboutusContainer {
+    padding: 2px 16px;
+  }
+  
+  .card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 5px; /* 5px rounded corners */
+  }
+  
+  /* Add rounded corners to the top left and the top right corner of the image */
+  img {
+    border-radius: 5px 5px 0 0;
+  }
+  .develperName{
+     font-weight: bold;
+     margin-top: 2%;
+     margin-bottom: 2%;
+  }
+  #githubIcon{
+      float: right;
+      margin-bottom: 3%;
+      color: black;
+  }
+  .developerPara {
+      float: left;
+  }
+  #githubIcon:hover{
+    color: #646363;
+  }
+  .aboutAppContainer {
+    height: 500px;
+    /* margin-top: 3%; */
+    margin-bottom: 3%;
+  }
+  .aboutApp {
+    
+    width: 100%;
+    height: 100%;
+    background-color: black; 
+    background-image: url("https://images.unsplash.com/photo-1494859802809-d069c3b71a8a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    transition: all .5s;
+  }
+
+.aboutAppContainer:hover .aboutApp,
+.aboutAppContainer:focus .aboutApp {
+  transform: scale(1.2);
+}
+
+.aboutApp::before {
+    content: "";
+    display: none;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(52, 73, 94, 0.75);
+  }
+  
+  .aboutAppContainer:hover .aboutApp:before,
+  .aboutAppContainer:focus .aboutApp:before {
+    display: block;
+  }
+
+.aboutAppContainer:hover span,
+.aboutAppContainer:focus span {
+  display: block;
+}
+
+
+ 
+ 
+
+  

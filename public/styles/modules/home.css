@@ -42,15 +42,15 @@
   }
   
   .secondDiv-home div {
-    background-color: #eea849;
-    border-radius: 30px;
+    background-color: rgba(238,168,73, .7);
+    border-radius: 100px;
     padding: 20px;
     margin: 10px auto;
     color: #646363;
     font-size: 10pt;
   }
   .secondDiv-home div:nth-child(2){
-    padding: 30px;
+    /* padding: 30px; */
   }
   .secondDiv-home p {
     display: inline;
@@ -71,6 +71,16 @@
     border-radius: 60px;
   }
   
+  .ingr-input{
+    padding: 10px 50px;
+    /* width: 100%; */
+    margin: 0 20px;
+    border: none;
+    border-radius: 100px;
+    box-sizing: border-box;
+    font-family: "Raleway", sans-serif;
+    font-size: 10pt;
+  }
   
   .secondDiv-home input[type='number']{
     padding: 10px;
@@ -81,7 +91,7 @@
     font-family: "Raleway", sans-serif;
     font-size: 10pt;
     text-align: center;
-    margin: 0 20px;
+    margin: 0 10px;
   }
   
   .secondDiv-home input:focus {
@@ -295,5 +305,26 @@
     animation-iteration-count: infinite;
     background-color: #6eb257;
     color: white;
-  }
-  
+}
+/*  input ingredient style  */
+
+hr {
+  width: 100%;
+}
+
+.template-add-area {
+  margin-top: 30px;
+  background-color: #7777777e;
+  padding: 30px;
+  border-radius: 45px;
+}
+
+.input-list-style {
+  padding: 20px;
+  margin: 5px 0;
+  width: 32%;
+  border: none;
+  box-sizing: border-box;
+  font-family: "Raleway", sans-serif;
+  font-size: 13pt;
+}

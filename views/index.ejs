@@ -19,6 +19,15 @@
     </div>
     <div id="filter" class="secondDiv-home">
       <div>
+        <p>Exclude ingredients</p>
+        <input class="ingr-input" id="excluded" type="text" name="excluded" />
+      </div>
+      <div>
+        <p>Max ingredients</p>
+        <label for="to">Max</label>
+        <input id="ingr" type="number" name="ingr" placeholder="00.00" />
+      </div>
+      <div>
         <p>Calorie</p>
         <label for="from">From</label>
         <input id="from" type="number" name="from" placeholder="00.00" />
@@ -37,6 +46,35 @@
         <input type="checkbox" id="high-protein" name="diet" value="high-protein" />
         <label for="high-protein">High protein</label>
       </div>
+    </div>
+  </form>
+
+  <script id="addTemplate" type="text/x-mustach-template">
+    <input class="input-list-style" type="text" name="{{name}}"
+      placeholder="Ingredient" required/>
+    <input class="input-list-style" type="number" name="{{amount}}"
+      placeholder="Amount" required/>
+    <select name="{{measure}}" class="input-list-style" id="{{measure}}"></select>
+  </script>
+
+  <hr>
+  <form action="/dataIng" method="POST">
+    <div class="firstDiv-home">
+      <h2>Or add ingredients to cook!</h2>
+      <div class="template-add-area">      
+        <input class="input-list-style" type="text" name="searchIngredient0"
+          placeholder="Ingredient" required/>
+        <input class="input-list-style" type="number" name="ingredientAmount0"
+          placeholder="Amount" required/>
+        <select name="ingredientMeasure0" class="input-list-style" id="ingredientMeasure0"></select>
+      </div>
+
+      <button class="button-style hvr-back-pulse-green" type="submit">
+        Analyse Nutrition
+      </button>
+      <button id="addIngredient" class="button-style-2 hvr-back-pulse" type="button">
+        Add one more ingredient
+      </button>
     </div>
   </form>
 </section>
