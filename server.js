@@ -50,15 +50,16 @@ app.use(methodOverride("_method"));
 
 //set database and connect to the server
 client.connect().then(() => {
-  app.listen(PORT, () => {
-    console.log("I am listening to port: ", PORT);
-  });
+app.listen(PORT, () => {
+  console.log("I am listening to port: ", PORT);
+});
 })
 
 // -------------------------------- ROUTES --------------------------------
 
 // Home route
 app.get("/", homeHandler);
+
 
 // get search
 app.get("/search", searchHandler);
@@ -70,7 +71,7 @@ app.post("/addFav", addFav);
 app.get("/fav", favHandler);
 
 // delete recipe from fav
-app.delete("/recipe/:id" , deleteFav);
+app.delete("/recipe/:id", deleteFav);
 
 // get calculator
 app.get("/calculate", calculateCalories);
@@ -81,6 +82,9 @@ app.post("/dataIng", renderIngredients);
 // get recipe by uri
 app.get("/recipeDetails/", recipeDetailsHandler);
 
+//Error route 
+app.all('*' , errorHandler);
+
 // all other routes
 // app.get("*", errorHandler);
 
@@ -89,6 +93,11 @@ app.get("/recipeDetails/", recipeDetailsHandler);
 //home
 function homeHandler(req, res) {
   res.render("index");
+}
+
+//error
+function errorHandler(req,res) {
+  res.status(404).render('pages/error');
 }
 
 //search
@@ -102,6 +111,16 @@ async function searchHandler(req, res) {
   res.render("pages/recipeResult", {
     recipes: recipes,
   });
+  // if (recipes.status === 200) {
+  //   res.render("pages/recipeResult", {
+  //     recipes: recipes,
+  //   });
+  // } else {
+  //   res.render('pages/error' , {
+  //     error : recipes,
+  //   })
+  //   console.log(recipes);
+  // }
 }
 
 //fav
@@ -127,8 +146,6 @@ async function deleteFav(req, res) {
 
 }
 
-
-
 //calculate
 function calculateCalories(req, res) {
   res.render("pages/calorieCalculator");
@@ -136,29 +153,30 @@ function calculateCalories(req, res) {
 
 // render result 
 async function renderIngredients(req, res) {
-    let length = Math.floor(Object.keys(req.body).length/3) - 1;
-    // let stringArray = [];
+  let length = Math.floor(Object.keys(req.body).length / 3) - 1;
+  // let stringArray = [];
 
-    for (var i = 0; i <= length; i++) {
-      let stringName = 'searchIngredient' + i;
-      let stringAmount = 'ingredientAmount' + i;
-      let stringMeasure = 'ingredientMeasure' + i;
-      let allString = req.body[stringName] + ' ' + req.body[stringAmount] + ' ' + req.body[stringMeasure];
-      // stringArray.push(allString);
-      // console.log(stringArray);
+  for (var i = 0; i <= length; i++) {
+    let stringName = 'searchIngredient' + i;
+    let stringAmount = 'ingredientAmount' + i;
+    let stringMeasure = 'ingredientMeasure' + i;
+    let allString = req.body[stringName] + ' ' + req.body[stringAmount] + ' ' + req.body[stringMeasure];
+    // stringArray.push(allString);
+    // console.log(stringArray);
 
-      let nutrition = await getNutrition(allString);
-      console.log(nutrition);
+    let nutrition = await getNutrition(allString);
+    console.log(nutrition);
 
-    }
+  }
 }
 
 //recipe details
 async function recipeDetailsHandler(req, res) {
   let uri = req.query.uri;
   let recipe = await getRecipeByURI(uri);
-  res.render('pages/recipeDetail', {recipe: recipe});
+  res.render('pages/recipeDetail', { recipe: recipe });
 }
+
 
 // -------------------------------- API FUNCTIONS --------------------------------
 
@@ -183,11 +201,8 @@ function getRecipes(ingredients, from, to, diet, health) {
       });
     })
     .catch((error) => {
-      return {
-        status: error.status,
-        message: error.response.text,
-      };
-    });
+      return handleError(error, res);
+    })
   return result;
 }
 
@@ -205,8 +220,11 @@ function getNutrition(string) {
     .then((res) => {
       console.log(res.body);
       return new Nutrients(res.body);
-    });
-    console.log(result);
+    })
+    .catch((error) => {
+      return handleError(error, res);
+    })
+  console.log(result);
   return result;
 }
 
@@ -226,9 +244,15 @@ function getRecipeByURI(uri) {
       return new Recipe({ recipe: res.body[0] });
     })
     .catch((error) => {
-      console.log(error);
-    });
+      return handleError(error, res);
+    })
   return result;
+}
+
+//error function 
+function handleError(error, res) {
+  console.error(error);
+  res.render('pages/error', {error: error});
 }
 
 // -------------------------------- DATA FUNCTIONS --------------------------------
@@ -248,19 +272,31 @@ function saveRecipeDB(recipeInfo) {
     recipeInfo.image,
     recipeInfo.data,
   ];
-  return client.query(SQL, recipeArray).then((result) => {
-    console.log(result);
-    // return result.rows;
-  });
+  return client.query(SQL, recipeArray)
+    .then((result) => {
+      console.log(result);
+      // return result.rows;
+    })
+    .catch((error) => {
+      return handleError(error, res);
+    })
 }
 
 // Get recipe from database
 function getRecipeDB() {
   let SQL = "SELECT * FROM recipes";
-  return client.query(SQL).then((result) => {
-    return { meals: result.rows };
-  });
+  return client.query(SQL)
+    .then((result) => {
+      console.log('result', result)
+      return { meals: result.rows };
+    })
+    .catch((error) => {
+      console.log('error', error)
+      return handleError(error, res);
+    })
 }
+
+getRecipeDB();
 // https://api.edamam.com/api/nutrition-data?app_id=14955312&
 // app_key=b051ae90212f813de4b95da243ad9e8a&ingr=10%20apple 
 ///----- 1 ingredient at a time with measuring 1cups%20apple
@@ -270,32 +306,36 @@ function getRecipeDB() {
 // from=0&to=3&calories=591-722&health=alcohol-free 
 ///----- Excluded concatenated multiple times
 
- // delete recipe from database
-function deleteRecipeDB(recipeId){
+// delete recipe from database
+function deleteRecipeDB(recipeId) {
   let SQL = `DELETE FROM recipes WHERE id=${recipeId}`;
-  return client.query(SQL).then(result => {
-    return { meals: result.rows };
-});
-}
+  return client.query(SQL)
+    .then(result => {
+      return { meals: result.rows };
+    })
+    .catch((error) => {
+      return handleError(error, res);
+    })
+  }
 
 
-// -------------------------------- CONSTRUCTORS --------------------------------
-function Recipe(data) {
-  this.uri = encodeURIComponent(data.recipe.uri);
-  this.title = data.recipe.label;
-  this.image = data.recipe.image;
-  this.ingredients = data.recipe.ingredientLines;
-  this.totalCalories = Math.round(data.recipe.calories);
-  this.servings = data.recipe.yield;
-  this.instructions_url = data.recipe.url;
-  this.calPerServ = Math.round(this.totalCalories / this.servings);
-}
+  // -------------------------------- CONSTRUCTORS --------------------------------
+  function Recipe(data) {
+    this.uri = encodeURIComponent(data.recipe.uri);
+    this.title = data.recipe.label;
+    this.image = data.recipe.image;
+    this.ingredients = data.recipe.ingredientLines;
+    this.totalCalories = Math.round(data.recipe.calories);
+    this.servings = data.recipe.yield;
+    this.instructions_url = data.recipe.url;
+    this.calPerServ = Math.round(this.totalCalories / this.servings);
+  }
 
-function Nutrients(data) {
-  this.uri = encodeURIComponent(data.uri);
-  this.title = data.ingredients[0].parsed[0].food;
-  this.totalCalories = Math.round(data.calories);
-  this.weight = data.ingredients[0].parsed[0].weight;
-  this.id = data.ingredients[0].parsed[0].foodId;
-  // this.calPercentage = Math.round(totalCalories / maxCalories);
-}
+  function Nutrients(data) {
+    this.uri = encodeURIComponent(data.uri);
+    this.title = data.ingredients[0].parsed[0].food;
+    this.totalCalories = Math.round(data.calories);
+    this.weight = data.ingredients[0].parsed[0].weight;
+    this.id = data.ingredients[0].parsed[0].foodId;
+    // this.calPercentage = Math.round(totalCalories / maxCalories);
+  }
