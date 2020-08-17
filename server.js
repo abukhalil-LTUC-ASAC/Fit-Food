@@ -78,7 +78,6 @@ app.post("/dataIng", renderIngredients);
 
 // get recipe by uri
 app.get("/recipeDetails/", recipeDetailsHandler);
- s
 
 // aboutus route
 app.get("/aboutus",aboutusHandler);
@@ -98,7 +97,7 @@ function homeHandler(req, res) {
 //aboutus
 function aboutusHandler(req, res){
   res.render("pages/aboutus");
-
+}
 
 //search
 async function searchHandler(req, res) {
@@ -166,7 +165,7 @@ async function renderIngredients(req, res) {
       " " +
       req.body[stringMeasure];
     let nutrition = await getNutrition(allString);
-    console.log(nutrition);
+    // console.log(nutrition);
   }
 }
 
@@ -180,7 +179,7 @@ async function recipeDetailsHandler(req, res) {
 //error
 function errorHandler(req, res) {
   res.status(404).render("pages/error", {
-    message: "page not found !"
+    message: "Page not found !"
   });
 }
 
@@ -233,12 +232,12 @@ function getNutrition(string) {
     .get(url)
     .query(queryParams)
     .then((res) => {
-      console.log(res.body);
+      // console.log(res.body);
       return new Nutrients(res.body);
     })
     .catch((error) => {
     });
-  console.log(result);
+  // console.log(result);
   return result;
 }
 
@@ -250,7 +249,7 @@ function getRecipeByURI(uri) {
     app_id: APP_ID,
     app_key: APP_KEY,
   };
-  console.log(queryParams);
+  // console.log(queryParams);
   let result = superagent
     .get(url)
     .query(queryParams)
@@ -294,7 +293,7 @@ function getRecipeDB() {
   return client
     .query(SQL)
     .then((result) => {
-      console.log("result", result);
+      // console.log("result", result);
       return { meals: result.rows };
     })
     .catch((error) => {
