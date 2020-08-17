@@ -76,7 +76,7 @@ app.delete("/recipe/:id" , deleteFav);
 app.get("/calculate", calculateCalories);
 
 // post ingredients
-app.post("/dataIng", renderIngredients);
+app.post("/ingredientDetails", renderIngredients);
 
 // get recipe by uri
 app.get("/recipeDetails/", recipeDetailsHandler);
@@ -128,28 +128,31 @@ async function deleteFav(req, res) {
 }
 
 
-
 //calculate
 function calculateCalories(req, res) {
   res.render("pages/calorieCalculator");
 }
 // render result 
 async function renderIngredients(req, res) {
-    let length = Math.floor(Object.keys(req.body).length/3) - 1;
-    // let stringArray = [];
+  let length = Math.floor(Object.keys(req.body).length/3) - 1;
+  let nutritionArray = [];
+  let maxCalories = req.body.maxCalories;
 
-    for (var i = 0; i <= length; i++) {
-      let stringName = 'searchIngredient' + i;
-      let stringAmount = 'ingredientAmount' + i;
-      let stringMeasure = 'ingredientMeasure' + i;
-      let allString = req.body[stringName] + ' ' + req.body[stringAmount] + ' ' + req.body[stringMeasure];
-      // stringArray.push(allString);
-      // console.log(stringArray);
+  for (var i = 0; i <= length; i++) {
+    let stringName = 'searchIngredient' + i;
+    let stringAmount = 'ingredientAmount' + i;
+    let stringMeasure = 'ingredientMeasure' + i;
+    let allString = req.body[stringName] + ' ' + req.body[stringAmount] + ' ' + req.body[stringMeasure];
+    let nutrition = await getNutrition(allString);
+    nutritionArray.push(nutrition);
+    
+  }
+  console.log(maxCalories);
+  res.render('pages/nutritionDetail', {
+    nutrition: nutritionArray,
+    maxCalories: maxCalories
+  });
 
-      let nutrition = await getNutrition(allString);
-      console.log(nutrition);
-
-    }
 }
 //recipe details
 async function recipeDetailsHandler(req, res) {

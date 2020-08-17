@@ -10,6 +10,10 @@ $(document).ready(function () {
   listeners();
   formCaloriesListener();
   generateOptions(indexOption);
+
+  // startup values
+  let maxCalories = localStorage.getItem('total') || 2000;
+  $('#maxCalories').val(maxCalories);
 });
 
 // favorit icon
@@ -56,10 +60,6 @@ function formCaloriesListener() {
 // event listener on tabbing
 function listeners() {
   $("#tabs").tabs();
-
-
-
-  
 
   $('.optimal-calories').html(parseInt(localStorage.getItem('total')).toFixed(1));
   $('#addIngredient').click(renderAddIngredient);

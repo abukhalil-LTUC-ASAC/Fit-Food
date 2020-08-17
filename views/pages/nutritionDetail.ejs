@@ -1,0 +1,32 @@
+<main>
+  <div id="ingredient-container">
+    <div id="ingredients-input">
+      <h2 class="section-title"><%= nutrition.length %> Ingredients</h2>
+      <ul>
+        <% nutrition.forEach(ingredient => { %>
+        <li class="ingredient-row"> 
+          <div class="nutrition">
+            <h1><%= ingredient.title %></h1>
+            <h2 class="section-title"> Nutrition</h2>
+            <span>
+              <h3> <%= ingredient.totalCalories %> </h3>
+              <h5>TOTAL CALORIES</h5>
+            </span>
+            <span>
+              <h3> <%= (ingredient.totalCalories/maxCalories)*100 %>%</h3>
+              <h5>CALORIES</h5>
+            </span>
+            <span>
+              <h3> <%= ingredient.weight %> </h3>
+              <h5>WEIGHT</h5>
+            </span>
+        </div>
+        </li>
+        <%})%>
+      </ul>
+    </div>
+    <div id="ingredients-output">
+      <h1>Results</h1>
+    </div>
+  </div>
+</main>

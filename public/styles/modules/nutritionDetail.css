@@ -1,0 +1,15 @@
+
+#ingredients-input {
+  grid-area: input;
+}
+
+#ingredients-output {
+  grid-area: output;
+}
+
+#nutrition-container {
+  display: grid;
+  grid-template-areas: 
+  'input output',
+  'input output';
+}
