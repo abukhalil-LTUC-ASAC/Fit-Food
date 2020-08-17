@@ -159,3 +159,15 @@
   display: flex;
   justify-content: space-around;
 }
+.fav{
+  background-color: transparent;
+    border: none;
+}
+.favIcon:active{
+color: #f46b45;
+}
+
+.deleteButton{
+  background-color: transparent;
+  border: none;
+}
