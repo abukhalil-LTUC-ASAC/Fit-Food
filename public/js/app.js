@@ -10,6 +10,10 @@ $(document).ready(function () {
   listeners();
   formCaloriesListener();
   generateOptions(indexOption);
+
+  // startup values
+  let maxCalories = localStorage.getItem('total') || 2000;
+  $('#maxCalories').val(maxCalories);
 });
 
 // favorit icon
@@ -57,12 +61,9 @@ function formCaloriesListener() {
 function listeners() {
   $("#tabs").tabs();
 
-
-
-  
-
   $('.optimal-calories').html(parseInt(localStorage.getItem('total')).toFixed(1));
   $('#addIngredient').click(renderAddIngredient);
+  $('#removeIngredient').click(renderRemoveIngredient);
 }
 
 // option generator on startup
@@ -84,6 +85,7 @@ function renderAddIngredient() {
 
   let template = $('#addTemplate').html();
   let obj = {
+    index: 'id' + indexOption,
     name: 'searchIngredient' + indexOption,
     amount: 'ingredientAmount' + indexOption,
     measure: 'ingredientMeasure' + indexOption
@@ -92,6 +94,13 @@ function renderAddIngredient() {
   $('.template-add-area').append(objRendered);
 
   generateOptions(indexOption);
+}
+
+function renderRemoveIngredient() {
+  $('#id' + indexOption).remove();
+  if (indexOption > 0) {
+    indexOption --;
+  }
 }
 
 

@@ -48,33 +48,4 @@
       </div>
     </div>
   </form>
-
-  <script id="addTemplate" type="text/x-mustach-template">
-    <input class="input-list-style" type="text" name="{{name}}"
-      placeholder="Ingredient" required/>
-    <input class="input-list-style" type="number" name="{{amount}}"
-      placeholder="Amount" required/>
-    <select name="{{measure}}" class="input-list-style" id="{{measure}}"></select>
-  </script>
-
-  <hr>
-  <form action="/dataIng" method="POST">
-    <div class="firstDiv-home">
-      <h2>Or add ingredients to cook!</h2>
-      <div class="template-add-area">      
-        <input class="input-list-style" type="text" name="searchIngredient0"
-          placeholder="Ingredient" required/>
-        <input class="input-list-style" type="number" name="ingredientAmount0"
-          placeholder="Amount" required/>
-        <select name="ingredientMeasure0" class="input-list-style" id="ingredientMeasure0"></select>
-      </div>
-
-      <button class="button-style hvr-back-pulse-green" type="submit">
-        Analyse Nutrition
-      </button>
-      <button id="addIngredient" class="button-style-2 hvr-back-pulse" type="button">
-        Add one more ingredient
-      </button>
-    </div>
-  </form>
 </section>
