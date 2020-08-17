@@ -1,0 +1,33 @@
+.gradiant-img {
+    padding: 100px 0;
+    background-image: linear-gradient(
+        to left,
+        rgba(238, 168, 73, 0.8),
+        rgba(244, 107, 69, 0.8)
+      ),
+      url("https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260");
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .errorDiv {
+    color: #ffffff;
+    font-weight: bold;
+    text-align: center;
+    width: 60%;
+    height: 250px;
+    margin: 100px auto;
+  }
+
+   .errorDiv h1{
+    font-family: "Playfair Display", serif;
+    font-size: 100pt;
+    padding-bottom: 20px;
+}
+  
+  .errorDiv h2 {
+    font-family: "Playfair Display", serif;
+    font-size: 20pt;
+    padding-left: 40px;
+  }
