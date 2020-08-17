@@ -41,8 +41,9 @@ nav {
   align-items: center;
   text-transform: uppercase;
   list-style-type: none;
-  margin-left: 60px;
+  margin-left: 70px; 
 }
+
 .nav-links li a {
   text-decoration: none;
   color: #646363;

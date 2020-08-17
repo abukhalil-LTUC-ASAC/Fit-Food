@@ -1,41 +1,48 @@
-<main>
+<main class="recipe-details-main">
     <div class="container">
         <div class="recipe-title">
-            <h1> <%= recipe.title %></h1>
+            <h2> <%= recipe.title %></h1>
         </div>
         <div class="recipe-img">
-            <img src="<%= recipe.image%>" alt="img">
+            <img class="recipe-img" src="<%= recipe.image%>" alt="img">
         </div>
         <div class="ingredients">
             <h2 class="section-title"><%= recipe.ingredients.length %> Ingredients</h2>
             <ul>
                 <% recipe.ingredients.forEach(ingredient => { %>
-                <li class="ingredient-row"> <%= ingredient %></li><br>
+                <li class="ingredient-row"><span class="circle-ingr"></span> <%= ingredient %></li>
                 <%})%>
             </ul>
         </div>
         <div class="nutrition">
             <h2 class="section-title"> Nutrition</h2>
-            <span>
-                <h3> <%= recipe.totalCalories %> </h3>
-                <h5>TOTAL CALORIES</h5>
-            </span>
+            <div class="nutrition-details">
 
-            <span>
+            <div>
+                <h3> <%= recipe.totalCalories %></h3>
+                <h5>TOTAL CALORIES</h5>
+            </div>
+
+            <div>
                 <h3> <%= recipe.calPerServ %> </h3>
                 <h5>CALORIES / SERVING</h5>
-            </span>
+            </div>
 
-            <span>
+            <div>
                 <h3> <%= recipe.servings %> </h3>
                 <h5>SERVINGS</h5>
-            </span>
+            </div>
+        </div>
+
         </div>
 
         <div class="instructions">
             <h2 class="section-title"> Preperation</h2>
-            <button onclick="window.location.href='<%= recipe.instructions_url%>'" id="instructions">Get
-                instructions</button>
+            <div>
+                <button class="button-style-2 hvr-back-pulse" onclick="window.location.href='<%= recipe.instructions_url%>'" id="instructions">Get
+                    instructions</button>
+            </div>
+           
         </div>
     </div>
 </main>
