@@ -1,0 +1,65 @@
+
+
+h1{
+    font-size: 25px;
+    padding-left: 30px;
+    padding-top: 30px;
+}
+
+.section-title{
+    font-size: 25px;
+    padding-bottom: 10px;
+    padding: 10px;
+}
+
+.ingredient-row{
+    font-size: 15px;
+    padding: 5px;
+}
+
+
+.recipe-img img {
+    padding-left: 30px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    width: 60%;
+    height: 20%;
+
+}
+
+.recipe-title {
+    grid-area: recipe-title;
+}
+
+.recipe-img {
+    grid-area: recipe-img;
+    /* max-height: 100%; */
+}
+
+.ingredients {
+    grid-area: ingredients;
+    width: 50%;
+}
+
+.nutrition {
+    grid-area: nutrition;
+    width: 100%;
+
+}
+
+.instructions {
+    grid-area: instructions;
+    width: 100%;
+    max-height: 100%;
+}
+
+
+.container {
+    display: grid;
+    grid-template-areas:
+    'recipe-title recipe-title '
+    'recipe-img recipe-img '
+    'ingredients nutrition '
+    'ingredients instructions ';
+
+  }
