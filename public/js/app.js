@@ -50,3 +50,17 @@ $('#form-calories').on('change', function() {
 $( function() {
   $("#tabs").tabs();
 } );
+
+// document.getElementsByClassName("deleteButton").addEventListener("click", showSnackBar);
+//    function showSnackBar(event) {
+//      event.preventDefault(event);
+//       var x = document.getElementsByClassName("snackText");
+//       x.className += " show";
+//       setTimeout(function() {
+//          x.className = x.className.replace("show", "");
+//       }, 3000);
+//    }
+
+  
+
+
