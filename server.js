@@ -6,9 +6,9 @@ const cors = require("cors");
 require("dotenv").config(".env");
 const expressLayouts = require("express-ejs-layouts");
 const pg = require("pg");
+
 const methodOverride = require('method-override');
 const client = new pg.Client(process.env.DATABASE_URL);
-
 
 
 // initialize the server
@@ -50,10 +50,10 @@ app.use(methodOverride("_method"));
 
 //set database and connect to the server
 client.connect().then(() => {
-app.listen(PORT, () => {
-  console.log("I am listening to port: ", PORT);
+  app.listen(PORT, () => {
+    console.log("I am listening to port: ", PORT);
+  });
 });
-})
 
 // -------------------------------- ROUTES --------------------------------
 
@@ -107,9 +107,21 @@ async function searchHandler(req, res) {
   let to = req.query.to;
   let diet = req.query.diet;
   let health = req.query.health;
-  let recipes = await getRecipes(ingredients, from, to, diet, health);
+  let excluded = req.query.excluded;
+  let ingr = req.query.ingr;
+
+  let recipes = await getRecipes(
+    ingredients,
+    from,
+    to,
+    diet,
+    health,
+    excluded,
+    ingr
+  );
+
   res.render("pages/recipeResult", {
-    recipes: recipes,
+    recipes: recipes
   });
   // if (recipes.status === 200) {
   //   res.render("pages/recipeResult", {
@@ -125,7 +137,6 @@ async function searchHandler(req, res) {
 
 //fav
 async function favHandler(req, res) {
-
   let result = await getRecipeDB();
   res.render("pages/fav", { meals: result.meals });
 }
@@ -181,7 +192,8 @@ async function recipeDetailsHandler(req, res) {
 // -------------------------------- API FUNCTIONS --------------------------------
 
 //search recipe API
-function getRecipes(ingredients, from, to, diet, health) {
+function getRecipes(ingredients, from, to, diet, health, excluded, ingr) {
+  console.log('ingr: ',ingr);
   let url = "https://api.edamam.com/search";
   let queryParams = {
     q: ingredients,
@@ -191,18 +203,35 @@ function getRecipes(ingredients, from, to, diet, health) {
       from && to ? `${from}-${to}` : from ? `${from}+` : to ? `${to}` : "0+",
     diet: diet,
     health: health,
+    excluded: excluded,
+    ingr: ingr
+  };
+
+  if (excluded.length === 0) {
+    delete queryParams.excluded;
+  };
+
+  if (ingr.length === 0) {
+    delete queryParams.ingr;
   };
   let result = superagent
     .get(url)
     .query(queryParams)
     .then((res) => {
+      console.log(res.body);
       return res.body.hits.map((e) => {
         return new Recipe(e);
       });
     })
     .catch((error) => {
       return handleError(error, res);
-    })
+//       console.log(error);
+
+//       return {
+//         status: error.status,
+//         message: error.response.text,
+//       };
+    });
   return result;
 }
 
