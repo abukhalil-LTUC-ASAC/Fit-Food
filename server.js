@@ -5,10 +5,9 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config(".env");
 const expressLayouts = require("express-ejs-layouts");
-const pg = require('pg');
+const pg = require("pg");
 const client = new pg.Client(process.env.DATABASE_URL);
-var methodOverride = require('method-override');
-
+var methodOverride = require("method-override");
 
 // initialize the server
 const app = express();
@@ -41,11 +40,11 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 
 //set database and connect to the server
-// client.connect().then(() => {
+client.connect().then(() => {
   app.listen(PORT, () => {
     console.log("I am listening to port: ", PORT);
   });
-// })
+});
 
 // -------------------------------- ROUTES --------------------------------
 
@@ -84,16 +83,28 @@ async function searchHandler(req, res) {
   let to = req.query.to;
   let diet = req.query.diet;
   let health = req.query.health;
-  let recipes = await getRecipes(ingredients, from, to, diet, health);
+  let excluded = req.query.excluded;
+  let ingr = req.query.ingr;
+
+  let recipes = await getRecipes(
+    ingredients,
+    from,
+    to,
+    diet,
+    health,
+    excluded,
+    ingr
+  );
+
   res.render("pages/recipeResult", {
-    recipes: recipes,
+    recipes: recipes
   });
 }
 
 //fav
 async function favHandler(req, res) {
   // let result = await getMealsDB();
-  res.render("pages/fav", { meals: fav });
+  // res.render("pages/fav", { meals: fav });
 }
 
 async function addFav(req, res) {
@@ -120,7 +131,8 @@ async function recipeDetailsHnadler(req, res) {
 // -------------------------------- API FUNCTIONS --------------------------------
 
 //search recipe API
-function getRecipes(ingredients, from, to, diet, health) {
+function getRecipes(ingredients, from, to, diet, health, excluded, ingr) {
+  console.log('ingr: ',ingr);
   let url = "https://api.edamam.com/search";
   let queryParams = {
     q: ingredients,
@@ -130,16 +142,29 @@ function getRecipes(ingredients, from, to, diet, health) {
       from && to ? `${from}-${to}` : from ? `${from}+` : to ? `${to}` : "0+",
     diet: diet,
     health: health,
+    excluded: excluded,
+    ingr: ingr
+  };
+
+  if (excluded.length === 0) {
+    delete queryParams.excluded;
+  };
+
+  if (ingr.length === 0) {
+    delete queryParams.ingr;
   };
   let result = superagent
     .get(url)
     .query(queryParams)
     .then((res) => {
+      console.log(res.body);
       return res.body.hits.map((e) => {
         return new Recipe(e);
       });
     })
     .catch((error) => {
+      console.log(error);
+
       return {
         status: error.status,
         message: error.response.text,
