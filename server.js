@@ -7,14 +7,8 @@ require("dotenv").config(".env");
 const expressLayouts = require("express-ejs-layouts");
 
 const pg = require("pg");
-
 const methodOverride = require('method-override');
-
-
-
-
 const client = new pg.Client(process.env.DATABASE_URL);
-var methodOverride = require('method-override');
 
 
 // initialize the server
@@ -25,9 +19,12 @@ const PORT = process.env.PORT || 3000;
 
 // Declare a app id for edmam
 const APP_ID = process.env.APP_ID;
-
 // Declare a app id for edmam
 const APP_KEY = process.env.APP_KEY;
+// Declare a app id for edmam
+const APP_ID_NUT = process.env.APP_ID_NUT;
+// Declare a app id for edmam
+const APP_KEY_NUT = process.env.APP_KEY_NUT;
 
 // using layouts
 app.use(expressLayouts);
@@ -52,11 +49,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
 //set database and connect to the server
-// client.connect().then(() => {
+client.connect().then(() => {
   app.listen(PORT, () => {
     console.log("I am listening to port: ", PORT);
   });
-// })
+})
 
 // -------------------------------- ROUTES --------------------------------
 
@@ -78,11 +75,14 @@ app.delete("/recipe/:id" , deleteFav);
 // get calculator
 app.get("/calculate", calculateCalories);
 
-// post calories
-// app.get("/", homeHandler);
+// post ingredients
+app.post("/dataIng", renderIngredients);
 
 // get recipe by uri
-app.get("/recipeDetails/", recipeDetailsHnadler);
+app.get("/recipeDetails/", recipeDetailsHandler);
+
+// all other routes
+// app.get("*", errorHandler);
 
 // -------------------------------- CALLBACK FUNCTIONS --------------------------------
 
@@ -109,8 +109,6 @@ async function favHandler(req, res) {
 
   let result = await getRecipeDB();
   res.render("pages/fav", { meals: result.meals });
-
-  
 }
 
 async function addFav(req, res) {
@@ -125,6 +123,7 @@ async function addFav(req, res) {
 async function deleteFav(req, res) {
   const recipeId = req.params.id;
   let result = await deleteRecipeDB(recipeId);
+  res.redirect("/fav");
 }
 
 
@@ -134,8 +133,27 @@ function calculateCalories(req, res) {
   res.render("pages/calorieCalculator");
 }
 
+// render result 
+async function renderIngredients(req, res) {
+    let length = Math.floor(Object.keys(req.body).length/3) - 1;
+    // let stringArray = [];
+
+    for (var i = 0; i <= length; i++) {
+      let stringName = 'searchIngredient' + i;
+      let stringAmount = 'ingredientAmount' + i;
+      let stringMeasure = 'ingredientMeasure' + i;
+      let allString = req.body[stringName] + ' ' + req.body[stringAmount] + ' ' + req.body[stringMeasure];
+      // stringArray.push(allString);
+      // console.log(stringArray);
+
+      let nutrition = await getNutrition(allString);
+      console.log(nutrition);
+
+    }
+}
+
 //recipe details
-async function recipeDetailsHnadler(req, res) {
+async function recipeDetailsHandler(req, res) {
   let uri = req.query.uri;
   let recipe = await getRecipeByURI(uri);
   res.send(recipe);
@@ -169,6 +187,25 @@ function getRecipes(ingredients, from, to, diet, health) {
         message: error.response.text,
       };
     });
+  return result;
+}
+
+//search nutrition API
+function getNutrition(string) {
+  let url = "https://api.edamam.com/api/nutrition-data";
+  let queryParams = {
+    app_id: APP_ID_NUT,
+    app_key: APP_KEY_NUT,
+    ingr: string
+  };
+  let result = superagent
+    .get(url)
+    .query(queryParams)
+    .then((res) => {
+      console.log(res.body);
+      return new Nutrients(res.body);
+    });
+    console.log(result);
   return result;
 }
 
@@ -223,6 +260,14 @@ function getRecipeDB() {
     return { meals: result.rows };
   });
 }
+// https://api.edamam.com/api/nutrition-data?app_id=14955312&
+// app_key=b051ae90212f813de4b95da243ad9e8a&ingr=10%20apple 
+///----- 1 ingredient at a time with measuring 1cups%20apple
+
+// https://api.edamam.com/search?q=chicken&excluded=citrus&excluded=salt
+// &excluded=kosher%20salt&app_id=a49852e9&app_key=1d096000e385b476818f554e3b06870d&
+// from=0&to=3&calories=591-722&health=alcohol-free 
+///----- Excluded concatenated multiple times
 
  // delete recipe from database
 function deleteRecipeDB(recipeId){
@@ -243,4 +288,13 @@ function Recipe(data) {
   this.servings = data.recipe.yield;
   this.instructions_url = data.recipe.url;
   this.calPerServ = Math.round(this.totalCalories / this.servings);
+}
+
+function Nutrients(data) {
+  this.uri = encodeURIComponent(data.uri);
+  this.title = data.ingredients[0].parsed[0].food;
+  this.totalCalories = Math.round(data.calories);
+  this.weight = data.ingredients[0].parsed[0].weight;
+  this.id = data.ingredients[0].parsed[0].foodId;
+  // this.calPercentage = Math.round(totalCalories / maxCalories);
 }
