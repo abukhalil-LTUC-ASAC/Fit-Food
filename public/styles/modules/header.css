@@ -25,7 +25,7 @@
     transition-duration: 360ms;
   }
   
-  ul {
+  header ul {
     width: fit-content;
     list-style-type: none;
     margin: 0;

@@ -296,25 +296,3 @@
     background-color: #6eb257;
     color: white;
 }
-/*  input ingredient style  */
-
-hr {
-  width: 100%;
-}
-
-.template-add-area {
-  margin-top: 30px;
-  background-color: #7777777e;
-  padding: 30px;
-  border-radius: 45px;
-}
-
-.input-list-style {
-  padding: 20px;
-  margin: 5px 0;
-  width: 32%;
-  border: none;
-  box-sizing: border-box;
-  font-family: "Raleway", sans-serif;
-  font-size: 13pt;
-}
