@@ -78,6 +78,11 @@ app.post("/dataIng", renderIngredients);
 
 // get recipe by uri
 app.get("/recipeDetails/", recipeDetailsHandler);
+ s
+
+// aboutus route
+app.get("/aboutus",aboutusHandler);
+
 
 // all other routes
 app.all("*", errorHandler);
@@ -88,6 +93,12 @@ app.all("*", errorHandler);
 function homeHandler(req, res) {
   res.render("index");
 }
+
+
+//aboutus
+function aboutusHandler(req, res){
+  res.render("pages/aboutus");
+
 
 //search
 async function searchHandler(req, res) {
