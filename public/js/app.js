@@ -109,10 +109,6 @@ function renderAddIngredient() {
 
 
 //---- nabvar responsive -----
-<<<<<<< HEAD
-
-=======
->>>>>>> test
 function renderRemoveIngredient() {
   $('#id' + indexOption).remove();
   if (indexOption > 0) {
