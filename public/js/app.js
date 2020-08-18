@@ -44,7 +44,7 @@ function formCaloriesListener() {
     let height = parseInt($('#height').val());
     let age = parseInt($('#age').val());
     let gender = $("input[name='gender']:checked").val();
-    let total = localStorage.getItem('total') || 0;
+    let total = localStorage.getItem('total') || 2000;
 
     if (gender == 'male') {
       total = (13.397*weight + 4.799*height - 5.677*age + 88.362).toFixed(1); // sourced from https://www.calculator.net/bmr-calculator.html
@@ -61,7 +61,7 @@ function formCaloriesListener() {
 function listeners() {
   $("#tabs").tabs();
 
-  $('.optimal-calories').html(parseInt(localStorage.getItem('total')).toFixed(1));
+  $('.optimal-calories').html(parseInt(localStorage.getItem('total') || 2000).toFixed(1));
   $('#addIngredient').click(renderAddIngredient);
   $('#removeIngredient').click(renderRemoveIngredient);
 }

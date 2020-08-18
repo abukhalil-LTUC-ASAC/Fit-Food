@@ -81,7 +81,6 @@ app.post("/ingredientDetails", renderIngredients);
 
 // get recipe by uri
 app.get("/recipeDetails/", recipeDetailsHandler);
- s
 
 // aboutus route
 app.get("/aboutus",aboutusHandler);
@@ -151,8 +150,9 @@ async function deleteFav(req, res) {
 }
 
 //calculate
-function calculateCalories(req, res) {
-  res.render("pages/calorieCalculator");
+async function calculateCalories(req, res) {
+  let result = await getRecipeDB();
+  res.render("pages/calorieCalculator", { meals: result.meals });
 }
 // render result 
 async function renderIngredients(req, res) {
