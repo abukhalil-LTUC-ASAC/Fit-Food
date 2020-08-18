@@ -3,7 +3,7 @@
   font-size: 20pt;
   font-family: "Roboto Slab", serif;
   color: #646363;
-
+}
 
 
 .container h1{
@@ -30,9 +30,8 @@
 }
 
 .recipe-img img {
-  padding-bottom: 30px;
   width: 100%;
-  height: 600px;
+  height: 100%;
   object-fit: cover;
   object-position: 50% 50%;
 }
@@ -60,14 +59,16 @@
 .ingredients {
   grid-area: ingredients;
   overflow: hidden;
+  height: 100%;
+  box-sizing: border-box;
+  background-color: #fff;
+  border-top-right-radius: 12px;
+  border-top-left-radius: 12px;
 }
 
 .ingredients ul {
-  margin-top: 5px;
   color: #646363;
   padding: 20px;
-  background-color: #fff;
-  height: 100%;
 }
 
 .ingredients ul li {
@@ -97,6 +98,7 @@
   align-items: center;
   height: 100%;
   background-color: #fff;
+  
 }
 
 .nutrition-details div {
@@ -144,13 +146,26 @@
   grid-gap: 30px;
   grid-template-areas:
     "recipe-title recipe-title "
-    "recipe-img recipe-img "
-    "ingredients nutrition "
-    "ingredients instructions ";
+    "recipe-img ingredients"
+    "recipe-img ingredients"
+    "nutrition instructions";
   grid-template-columns: 1fr 1fr;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 600px) {
+
+  .container {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-areas:
+      "recipe-title"
+      "recipe-img"
+      "ingredients"
+      "nutrition"
+      "instructions";
+    grid-template-columns: 1fr;
+  }
+
   .recipe-details-main {
     padding-top: 100px;
   }
