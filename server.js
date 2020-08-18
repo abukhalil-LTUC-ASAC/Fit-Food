@@ -165,7 +165,7 @@ async function addFav(req, res) {
   let localDate = dateNow.toLocaleDateString();
   recipeInfo.data = localDate;
   let result = await saveRecipeDB(recipeInfo);
-  res.redirect('/fav')
+  res.redirect("/fav");
 }
 
 async function deleteFav(req, res) {
@@ -179,53 +179,56 @@ async function calculateCalories(req, res) {
   let result = await getRecipeDB();
   res.render("pages/calorieCalculator", { meals: result.meals });
 }
-// render result 
+// render result
 async function renderIngredients(req, res) {
-  let length = Math.floor(Object.keys(req.body).length/3) - 1;
+  let length = Math.floor(Object.keys(req.body).length / 3) - 1;
   let nutritionArray = [];
   let maxCalories = req.body.maxCalories;
 
   for (var key in TotalIngredients) {
     TotalIngredients[key][0] = 0;
     TotalIngredients[key][1] = 0;
-  };
+  }
 
   for (var i = 0; i <= length; i++) {
-//     let stringName = "searchIngredient" + i;
-//     let stringAmount = "ingredientAmount" + i;
-//     let stringMeasure = "ingredientMeasure" + i;
-//     let allString =
-//       req.body[stringName] +
-//       " " +
-//       req.body[stringAmount] +
-//       " " +
-//       req.body[stringMeasure];
-//     let nutrition = await getNutrition(allString);
+    //     let stringName = "searchIngredient" + i;
+    //     let stringAmount = "ingredientAmount" + i;
+    //     let stringMeasure = "ingredientMeasure" + i;
+    //     let allString =
+    //       req.body[stringName] +
+    //       " " +
+    //       req.body[stringAmount] +
+    //       " " +
+    //       req.body[stringMeasure];
+    //     let nutrition = await getNutrition(allString);
     // console.log(nutrition);
-    let stringName = 'searchIngredient' + i;
-    let stringAmount = 'ingredientAmount' + i;
-    let stringMeasure = 'ingredientMeasure' + i;
-    let allString = req.body[stringName] + ' ' + req.body[stringAmount] + ' ' + req.body[stringMeasure];
+    let stringName = "searchIngredient" + i;
+    let stringAmount = "ingredientAmount" + i;
+    let stringMeasure = "ingredientMeasure" + i;
+    let allString =
+      req.body[stringName] +
+      " " +
+      req.body[stringAmount] +
+      " " +
+      req.body[stringMeasure];
     let ingredient = await getNutrition(allString);
-
 
     // addNutrition = ();
     nutritionArray.push(ingredient);
- 
   }
   console.log(nutritionArray);
-  nutritionArray.forEach(ingredient => {                    // sums all nutrients
+  nutritionArray.forEach((ingredient) => {
+    // sums all nutrients
     for (var key in ingredient.nutrients) {
       TotalIngredients[key][0] += parseInt(ingredient.nutrients[key][0]);
       TotalIngredients[key][1] += parseInt(ingredient.nutrients[key][1]);
-    };
+    }
   });
-  res.render('pages/nutritionDetail', {
+  res.render("pages/nutritionDetail", {
     maxCalories: maxCalories,
     nutritionArray: nutritionArray,
-    TotalIngredients: TotalIngredients
+    TotalIngredients: TotalIngredients,
   });
-
 }
 
 //recipe details
@@ -240,8 +243,8 @@ function nutritionWizardHandler(req, res) {
   res.render("pages/nutritionWizard");
 }
 
-// get favorite recipe by id 
-async function favDetailsHandler(req, res){
+// get favorite recipe by id
+async function favDetailsHandler(req, res) {
   let id = req.query.id;
   let favorite = await getFavByIdDB(id);
   // console.log(favorite);
@@ -289,12 +292,11 @@ function getNutrition(string) {
     .get(url)
     .query(queryParams)
     .then((res) => {
-
-//       // console.log(res.body);
-//       return new Nutrients(res.body);
-//     })
-//     .catch((error) => {});
-//   // console.log(result);
+      //       // console.log(res.body);
+      //       return new Nutrients(res.body);
+      //     })
+      //     .catch((error) => {});
+      //   // console.log(result);
 
       console.log(res.body);
       return new Ingredient(res.body);
@@ -364,11 +366,11 @@ function getRecipeDB() {
 function getFavByIdDB(id) {
   console.log(id);
   let SQL = "SELECT * FROM recipes WHERE id=$1";
-  let values =[id]
+  let values = [id];
   return client
     .query(SQL, values)
     .then((result) => {
-      return result.rows[0] ;
+      return result.rows[0];
     })
     .catch((error) => {});
 }
@@ -405,22 +407,84 @@ function Ingredient(data) {
   this.weight = data.ingredients[0].parsed[0].weight;
   this.id = data.ingredients[0].parsed[0].foodId;
   this.nutrients = {
-    'Total Fat': [data.totalNutrients.FAT.quantity.toFixed(1) || 0, data.totalDaily.FAT.quantity.toFixed(1) || 0, data.totalNutrients.FAT.unit],
-    'Saturated Fat': [data.totalNutrients.FASAT.quantity.toFixed(1) || 0, data.totalDaily.FASAT.quantity.toFixed(1) || 0, data.totalNutrients.FASAT.unit],
-    'Trans Fat': [(data.totalNutrients.FAMS.quantity + data.totalNutrients.FAPU.quantity).toFixed(1) || 0, 0, data.totalNutrients.FAPU.unit],
-    Cholesterol: [data.totalNutrients.CHOLE.quantity.toFixed(1) || 0, data.totalDaily.CHOLE.quantity.toFixed(1) || 0, data.totalNutrients.CHOLE.unit],
-    Sodium: [data.totalNutrients.NA.quantity.toFixed(1) || 0, data.totalDaily.NA.quantity.toFixed(1) || 0, data.totalNutrients.NA.unit],
-    Carbohydrate: [data.totalNutrients.CHOCDF.quantity.toFixed(1) || 0, data.totalDaily.CHOCDF.quantity.toFixed(1) || 0, data.totalNutrients.CHOCDF.unit],
-    'Dietary Fiber': [data.totalNutrients.FIBTG.quantity.toFixed(1) || 0, data.totalDaily.FIBTG.quantity.toFixed(1) || 0, data.totalNutrients.FIBTG.unit],
-    'Total Sugars': [data.totalNutrients.SUGAR.quantity.toFixed(1) || 0, 0, data.totalNutrients.SUGAR.unit],
-    Protein: [data.totalNutrients.PROCNT.quantity.toFixed(1) || 0, data.totalDaily.PROCNT.quantity.toFixed(1) || 0, data.totalNutrients.PROCNT.unit],
-    'Vitamin A': [data.totalNutrients.VITA_RAE.quantity.toFixed(1) || 0, data.totalDaily.VITA_RAE.quantity.toFixed(1) || 0, data.totalNutrients.VITA_RAE.unit],
-    'Vitamin C': [data.totalNutrients.VITC.quantity.toFixed(1) || 0, data.totalDaily.VITC.quantity.toFixed(1) || 0, data.totalNutrients.VITC.unit],
-    'Vitamin D': [data.totalNutrients.VITD.quantity.toFixed(1) || 0, data.totalDaily.VITD.quantity.toFixed(1) || 0, data.totalNutrients.VITD.unit],
-    Calcium: [data.totalNutrients.CA.quantity.toFixed(1) || 0, data.totalDaily.CA.quantity.toFixed(1) || 0, data.totalNutrients.CA.unit],
-    Iron: [data.totalNutrients.FE.quantity.toFixed(1) || 0, data.totalDaily.FE.quantity.toFixed(1) || 0, data.totalNutrients.FE.unit],
-    Potassium: [data.totalNutrients.K.quantity.toFixed(1) || 0, data.totalDaily.K.quantity.toFixed(1) || 0, data.totalNutrients.K.unit],
-  }
+    "Total Fat": [
+      data.totalNutrients.FAT.quantity.toFixed(1) || 0,
+      data.totalDaily.FAT.quantity.toFixed(1) || 0,
+      data.totalNutrients.FAT.unit,
+    ],
+    "Saturated Fat": [
+      data.totalNutrients.FASAT.quantity.toFixed(1) || 0,
+      data.totalDaily.FASAT.quantity.toFixed(1) || 0,
+      data.totalNutrients.FASAT.unit,
+    ],
+    "Trans Fat": [
+      (
+        data.totalNutrients.FAMS.quantity + data.totalNutrients.FAPU.quantity
+      ).toFixed(1) || 0,
+      0,
+      data.totalNutrients.FAPU.unit,
+    ],
+    Cholesterol: [
+      data.totalNutrients.CHOLE.quantity.toFixed(1) || 0,
+      data.totalDaily.CHOLE.quantity.toFixed(1) || 0,
+      data.totalNutrients.CHOLE.unit,
+    ],
+    Sodium: [
+      data.totalNutrients.NA.quantity.toFixed(1) || 0,
+      data.totalDaily.NA.quantity.toFixed(1) || 0,
+      data.totalNutrients.NA.unit,
+    ],
+    Carbohydrate: [
+      data.totalNutrients.CHOCDF.quantity.toFixed(1) || 0,
+      data.totalDaily.CHOCDF.quantity.toFixed(1) || 0,
+      data.totalNutrients.CHOCDF.unit,
+    ],
+    "Dietary Fiber": [
+      data.totalNutrients.FIBTG.quantity.toFixed(1) || 0,
+      data.totalDaily.FIBTG.quantity.toFixed(1) || 0,
+      data.totalNutrients.FIBTG.unit,
+    ],
+    "Total Sugars": [
+      data.totalNutrients.SUGAR.quantity.toFixed(1) || 0,
+      0,
+      data.totalNutrients.SUGAR.unit,
+    ],
+    Protein: [
+      data.totalNutrients.PROCNT.quantity.toFixed(1) || 0,
+      data.totalDaily.PROCNT.quantity.toFixed(1) || 0,
+      data.totalNutrients.PROCNT.unit,
+    ],
+    "Vitamin A": [
+      data.totalNutrients.VITA_RAE.quantity.toFixed(1) || 0,
+      data.totalDaily.VITA_RAE.quantity.toFixed(1) || 0,
+      data.totalNutrients.VITA_RAE.unit,
+    ],
+    "Vitamin C": [
+      data.totalNutrients.VITC.quantity.toFixed(1) || 0,
+      data.totalDaily.VITC.quantity.toFixed(1) || 0,
+      data.totalNutrients.VITC.unit,
+    ],
+    "Vitamin D": [
+      data.totalNutrients.VITD.quantity.toFixed(1) || 0,
+      data.totalDaily.VITD.quantity.toFixed(1) || 0,
+      data.totalNutrients.VITD.unit,
+    ],
+    Calcium: [
+      data.totalNutrients.CA.quantity.toFixed(1) || 0,
+      data.totalDaily.CA.quantity.toFixed(1) || 0,
+      data.totalNutrients.CA.unit,
+    ],
+    Iron: [
+      data.totalNutrients.FE.quantity.toFixed(1) || 0,
+      data.totalDaily.FE.quantity.toFixed(1) || 0,
+      data.totalNutrients.FE.unit,
+    ],
+    Potassium: [
+      data.totalNutrients.K.quantity.toFixed(1) || 0,
+      data.totalDaily.K.quantity.toFixed(1) || 0,
+      data.totalNutrients.K.unit,
+    ],
+  };
 }
 
 let TotalIngredients = {
@@ -453,3 +517,4 @@ let queryParams = {
   excluded: '',
   ingr: '',
 };
+
