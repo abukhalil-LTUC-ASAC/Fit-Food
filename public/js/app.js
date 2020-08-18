@@ -104,13 +104,15 @@ function renderAddIngredient() {
   }
   let objRendered = Mustache.render(template,obj);
   $('.template-add-area').append(objRendered);
-
   generateOptions(indexOption);
 }
 
 
 //---- nabvar responsive -----
+<<<<<<< HEAD
 
+=======
+>>>>>>> test
 function renderRemoveIngredient() {
   $('#id' + indexOption).remove();
   if (indexOption > 0) {

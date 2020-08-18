@@ -4,9 +4,12 @@
   font-family: "Roboto Slab", serif;
   color: #646363;
 }
+<<<<<<< HEAD
+=======
 
+>>>>>>> test
 
-.container h1{
+.container h1 {
     font-size: 25px;
     padding-left: 30px;
     padding-top: 30px;
@@ -153,6 +156,7 @@
 }
 
 @media screen and (max-width: 600px) {
+<<<<<<< HEAD
 
   .container {
     display: grid;
@@ -166,6 +170,8 @@
     grid-template-columns: 1fr;
   }
 
+=======
+>>>>>>> test
   .recipe-details-main {
     padding-top: 100px;
   }
