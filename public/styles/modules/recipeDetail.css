@@ -4,10 +4,6 @@
   font-family: "Roboto Slab", serif;
   color: #646363;
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> test
 
 .container h1 {
     font-size: 25px;
@@ -37,6 +33,7 @@
   height: 100%;
   object-fit: cover;
   object-position: 50% 50%;
+  border-radius: 5px;
 }
 
 .recipe-title {
@@ -64,7 +61,6 @@
   overflow: hidden;
   height: 100%;
   box-sizing: border-box;
-  background-color: #fff;
   border-top-right-radius: 12px;
   border-top-left-radius: 12px;
 }
@@ -72,6 +68,9 @@
 .ingredients ul {
   color: #646363;
   padding: 20px;
+  background-color: #fff;
+  height: 100%;
+  margin-top: 5px;
 }
 
 .ingredients ul li {
@@ -156,7 +155,6 @@
 }
 
 @media screen and (max-width: 600px) {
-<<<<<<< HEAD
 
   .container {
     display: grid;
@@ -170,8 +168,6 @@
     grid-template-columns: 1fr;
   }
 
-=======
->>>>>>> test
   .recipe-details-main {
     padding-top: 100px;
   }
