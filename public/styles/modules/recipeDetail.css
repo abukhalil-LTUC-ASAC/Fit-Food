@@ -24,6 +24,17 @@
 
 .recipe-title {
   grid-area: recipe-title;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.recipe-title button {
+  margin-top: 0;
+  background-color: #fff;
+}
+.recipe-title button i {
+  margin-right: 7px;
 }
 
 .recipe-img {
@@ -34,7 +45,6 @@
 .ingredients {
   grid-area: ingredients;
   overflow: hidden;
-
 }
 
 .ingredients ul {
@@ -58,6 +68,9 @@
 }
 .nutrition {
   grid-area: nutrition;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .nutrition-details {
@@ -67,6 +80,7 @@
   justify-content: space-around;
   text-align: center;
   align-items: center;
+  height: 100%;
   background-color: #fff;
 }
 
@@ -90,13 +104,16 @@
 
 .instructions {
   grid-area: instructions;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 .instructions div {
   background-color: #fff;
   padding: 20px;
   margin-top: 5px;
   text-align: center;
-
+  height: 100%;
 }
 .instructions button {
   margin-top: 0;
@@ -116,5 +133,17 @@
     "ingredients nutrition "
     "ingredients instructions ";
   grid-template-columns: 1fr 1fr;
-  
+}
+
+@media screen and (max-width: 800px) {
+  .recipe-details-main {
+    padding-top: 100px;
+  }
+  .nutrition-details {
+    flex-direction: column;
+  }
+  .nutrition-details div {
+    width: 100%;
+    margin: 10px;
+  }
 }

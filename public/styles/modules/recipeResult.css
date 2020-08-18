@@ -176,3 +176,10 @@
 .deleteButton:focus{
   outline: none;
 }
+
+
+@media screen and (max-width: 800px) {
+  .card-container {
+    padding-top: 100px;
+  }
+}

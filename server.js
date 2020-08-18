@@ -80,8 +80,13 @@ app.post("/dataIng", renderIngredients);
 app.get("/recipeDetails/", recipeDetailsHandler);
 
 // aboutus route
-app.get("/aboutus",aboutusHandler);
+app.get("/aboutus", aboutusHandler);
 
+// nutrition Wizard page
+app.get("/nutritionWizard", nutritionWizardHandler);
+
+// get fav recipe by id
+app.get("/favDetails/", favDetailsHandler);
 
 // all other routes
 app.all("*", errorHandler);
@@ -93,9 +98,8 @@ function homeHandler(req, res) {
   res.render("index");
 }
 
-
 //aboutus
-function aboutusHandler(req, res){
+function aboutusHandler(req, res) {
   res.render("pages/aboutus");
 }
 
@@ -176,10 +180,22 @@ async function recipeDetailsHandler(req, res) {
   res.render("pages/recipeDetail", { recipe: recipe });
 }
 
+// Nutrition Wizard
+function nutritionWizardHandler(req, res) {
+  res.render("pages/nutritionWizard");
+}
+
+// get favorite recipe by id 
+async function favDetailsHandler(req, res){
+  let id = req.query.id;
+  let favorite = await getFavByIdDB(id);
+  // console.log(favorite);
+  res.render("pages/favDetails", { recipe: favorite });
+}
 //error
 function errorHandler(req, res) {
   res.status(404).render("pages/error", {
-    message: "Page not found !"
+    message: "Page not found !",
   });
 }
 
@@ -215,8 +231,7 @@ function getRecipes(ingredients, from, to, diet, health, excluded, ingr) {
         return new Recipe(e);
       });
     })
-    .catch((error) => {
-    });
+    .catch((error) => {});
   return result;
 }
 
@@ -235,8 +250,7 @@ function getNutrition(string) {
       // console.log(res.body);
       return new Nutrients(res.body);
     })
-    .catch((error) => {
-    });
+    .catch((error) => {});
   // console.log(result);
   return result;
 }
@@ -256,8 +270,7 @@ function getRecipeByURI(uri) {
     .then((res) => {
       return new Recipe({ recipe: res.body[0] });
     })
-    .catch((error) => {
-    });
+    .catch((error) => {});
   return result;
 }
 
@@ -283,21 +296,32 @@ function saveRecipeDB(recipeInfo) {
     .then((result) => {
       return result.rows;
     })
-    .catch((error) => {
-    });
+    .catch((error) => {});
 }
 
 // Get recipe from database
 function getRecipeDB() {
-  let SQL = "SELECT * FROM recipes";
+  let SQL = "SELECT * FROM recipes ORDER BY id DESC";
   return client
     .query(SQL)
     .then((result) => {
       // console.log("result", result);
       return { meals: result.rows };
     })
-    .catch((error) => {
-    });
+    .catch((error) => {});
+}
+
+// get favorite recipe by id from database
+function getFavByIdDB(id) {
+  console.log(id);
+  let SQL = "SELECT * FROM recipes WHERE id=$1";
+  let values =[id]
+  return client
+    .query(SQL, values)
+    .then((result) => {
+      return result.rows[0] ;
+    })
+    .catch((error) => {});
 }
 
 // delete recipe from database
@@ -308,8 +332,7 @@ function deleteRecipeDB(recipeId) {
     .then((result) => {
       return { meals: result.rows };
     })
-    .catch((error) => {
-    });
+    .catch((error) => {});
 }
 
 // -------------------------------- CONSTRUCTORS --------------------------------
