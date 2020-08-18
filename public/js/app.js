@@ -94,7 +94,6 @@ function generateOptions(index) {
 
 function renderAddIngredient() {
   indexOption ++;
-
   let template = $('#addTemplate').html();
   let obj = {
     index: 'id' + indexOption,
@@ -131,3 +130,5 @@ hamburger.addEventListener('click', ()=>{
   //Hamburger Animation
   hamburger.classList.toggle('toggle');
 });
+
+
