@@ -83,7 +83,7 @@ app.post("/ingredientDetails", renderIngredients);
 app.get("/recipeDetails/", recipeDetailsHandler);
 
 // aboutus route
-app.get("/aboutus", aboutusHandler);
+app.get("/newAboutus", aboutusHandler);
 
 // nutrition Wizard page
 app.get("/nutritionWizard", nutritionWizardHandler);
@@ -103,7 +103,7 @@ function homeHandler(req, res) {
 
 //aboutus
 function aboutusHandler(req, res) {
-  res.render("pages/aboutus");
+  res.render("pages/newAboutus");
 }
 
 //search
