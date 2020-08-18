@@ -8,7 +8,6 @@ $(document).ready(function () {
 
   // startup functions
   listeners();
-  formCaloriesListener();
   generateOptions(indexOption);
 
   // startup values
@@ -37,18 +36,18 @@ $('.fav').on({
 
 // --------------------- Functions --------------------- //
 
-function formCaloriesListener() {
+function formCaloriesSubmit() {
 // event listener onchange form change Basal Metabolic Rate (BMR)
   $('#form-calories').on('change', function() {
     let weight = parseInt($('#weight').val());
     let height = parseInt($('#height').val());
     let age = parseInt($('#age').val());
-    let gender = $("input[name='gender']:checked").val();
+    let gender = $('input[name=\'gender\']:checked').val();
     let total = localStorage.getItem('total') || 2000;
 
-    if (gender == 'male') {
+    if (gender === 'male') {
       total = (13.397*weight + 4.799*height - 5.677*age + 88.362).toFixed(1); // sourced from https://www.calculator.net/bmr-calculator.html
-    } else if (gender == 'female') {
+    } else if (gender === 'female') {
       total = (9.247*weight + 3.098*height - 4.330*age + 447.593).toFixed(1);
     }
     localStorage.setItem('total', total);
@@ -59,8 +58,9 @@ function formCaloriesListener() {
 
 // event listener on tabbing
 function listeners() {
-  $("#tabs").tabs();
 
+  $('#tabs').tabs();
+  $('#addCalories').click(formCaloriesSubmit);
   $('.optimal-calories').html(parseInt(localStorage.getItem('total') || 2000).toFixed(1));
   $('#addIngredient').click(renderAddIngredient);
   $('#removeIngredient').click(renderRemoveIngredient);
@@ -68,15 +68,15 @@ function listeners() {
 
 // option generator on startup
 function generateOptions(index) {
-  let measurements = ['Ounce', 'Gram', 'Pound', 'Kilogram', 'Pinch', 'Liter', 'Fluid ounce', 'Gallon', 
-  'Pint', 'Quart', 'Milliliter', 'Drop', 'Cup', 'Tablespoon', 'Teaspoon'];
+  let measurements = ['Ounce', 'Gram', 'Pound', 'Kilogram', 'Pinch', 'Liter', 'Fluid ounce', 'Gallon',
+    'Pint', 'Quart', 'Milliliter', 'Drop', 'Cup', 'Tablespoon', 'Teaspoon'];
   let select = $('#ingredientMeasure' + index);
 
-  $.each(measurements, function(key, value) {   
+  $.each(measurements, function(key, value) {
     select
-    .append($("<option></option>")
-    .attr("value", value.toLowerCase())
-    .text(value));
+      .append($('<option></option>')
+        .attr('value', value.toLowerCase())
+        .text(value));
   });
 }
 
@@ -96,6 +96,9 @@ function renderAddIngredient() {
   generateOptions(indexOption);
 }
 
+
+//---- nabvar responsive -----
+=======
 function renderRemoveIngredient() {
   $('#id' + indexOption).remove();
   if (indexOption > 0) {
@@ -104,3 +107,17 @@ function renderRemoveIngredient() {
 }
 
 
+const hamburger = document.querySelector('.hamburger');
+const navLinks = document.querySelector('.nav-links');
+const links = document.querySelectorAll('.nav-links li');
+
+hamburger.addEventListener('click', ()=>{
+  //Animate Links
+  navLinks.classList.toggle('open');
+  links.forEach(link => {
+    link.classList.toggle('fade');
+  });
+
+  //Hamburger Animation
+  hamburger.classList.toggle('toggle');
+});

@@ -1,4 +1,16 @@
-
+.gradiant-img-background-2 {
+  padding: 100px 0;
+  background-image: linear-gradient(
+      to left,
+      rgba(238, 168, 73, 0.8),
+      rgba(244, 107, 69, 0.8)
+    ),
+    url("https://images.pexels.com/photos/3253501/pexels-photo-3253501.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+  background-size: cover;
+  background-position: 50% 50%;
+  display: flex;
+  flex-direction: column;
+}
 #calorie-card {
   display: flex;
   flex-flow: wrap;
@@ -9,6 +21,10 @@
 
 #calorie-card legend {
   margin: 0 auto;
+  font-family: "Playfair Display", serif;
+  font-size: 25pt;
+  color: #fff;
+  font-weight: bold;
 }
 
 #form-calories fieldset {
@@ -17,7 +33,7 @@
 }
 
 #form-calories label {
-
+  color: #fff;
 }
 
 #form-result {
@@ -40,9 +56,17 @@
 
 #calorie-card input[type="number"] {
   width: 100%;
-  margin: 5px 0 15px 0;
-  padding: 7px;
-  border-radius: 15px;
+  margin: 15px 0 15px 0;
+  padding: 15px 25px;
+  border: none;
+  border-radius: 100px;
+  box-sizing: border-box;
+  font-family: "Raleway", sans-serif;
+  font-size: 10pt;
+}
+
+#calorie-card input[type="number"]:focus{
+  outline: none;
 }
 
 .radio-container {
@@ -68,7 +92,10 @@
   margin: 0 auto;
   display: flex;
   flex-flow: nowrap;
+<<<<<<< HEAD
   border-bottom: solid;
+=======
+>>>>>>> test
 }
 
 #tabs {
@@ -81,7 +108,31 @@
   padding: 20px;
 }
 
+<<<<<<< HEAD
 .de4 img{
+=======
+.de1 {
+  grid-row: 2/4;
+  grid-column: 1/6;
+}
+
+.de2 {
+  grid-row: 5/7;
+  grid-column: 1/4;
+}
+
+.de3 {
+  grid-row: 5/7;
+  grid-column: 5/9;
+}
+
+.de4 {
+  grid-row: 2/4;
+  grid-column: 7/9;
+}
+
+.de4 img {
+>>>>>>> test
   object-fit: cover;
   width: 100%;
   max-height: 100%;
@@ -151,6 +202,7 @@
 #area #data {
   color: black;
 }
+<<<<<<< HEAD
 
 @media all and (min-width: 760px) {
   #profile-card {
@@ -186,3 +238,5 @@
   }
 }
 
+=======
+>>>>>>> test

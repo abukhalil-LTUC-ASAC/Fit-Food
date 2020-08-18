@@ -2,7 +2,7 @@
     <div class="container">
         <div class="recipe-title">
             <h2> <%= recipe.title %></h1>
-                <form class="fav" action="/addFav" method="POST">
+                <form action="/recipe/<%= recipe.id %>?_method=delete" method="POST">
                     <input type="hidden" value="<%=recipe.title%>" name="title">
                     <input type="hidden" value="<%=recipe.ingredients%>" name="ingredients">
                     <input type="hidden" value="<%=recipe.totalCalories%>" name="totalCalories">
@@ -11,7 +11,7 @@
                     <input type="hidden" value="<%=recipe.instructions_url%>" name="instructions_url">
                     <input type="hidden" value="<%=recipe.calPerServ%>" name="calPerServ">
                     <input type="hidden" value="<%=recipe.image%>" name="image">
-                    <button type="submit" class="button-style-2 fav"><i class="far fa-heart card__like favIcon"></i> Save</button>
+                    <button type="submit" class=" button-style-2 fav "><i class="far fa-trash-alt favIcon"></i> Delete</button>
                   </form>
              
         </div>
@@ -31,12 +31,12 @@
             <div class="nutrition-details">
 
             <div>
-                <h3> <%= recipe.totalCalories %></h3>
+                <h3> <%= recipe.totalcalories %></h3>
                 <h5>TOTAL CALORIES</h5>
             </div>
 
             <div>
-                <h3> <%= recipe.calPerServ %> </h3>
+                <h3> <%= recipe.calperserv %> </h3>
                 <h5>CALORIES / SERVING</h5>
             </div>
 
