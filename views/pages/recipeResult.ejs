@@ -1,6 +1,6 @@
 
 <main class="card-container">
-  <section class="cards">
+  <section class="cards" id="cards">
     <%recipes.forEach((recipe) => {%>
     <article class="card card--1">
       <div class="card__info-hover">
@@ -48,6 +48,14 @@
     <%});%>
   </section>
 
-
+  <div class="pagination">
+    <!-- <a href="#" onclick="pagination('-')">&laquo;</a> -->
+    <a href='/search?from=0&to=9&excluded=&ingr=' onclick="pagination(1)" class="active">1</a>
+    <a href='/search?from=10&to=19&excluded=&ingr=' onclick="pagination(2)">2</a>
+    <a href='/search?from=20&to=29&excluded=&ingr=' onclick="pagination(3)">3</a>
+    <a href='/search?from=30&to=39&excluded=&ingr=' onclick="pagination(4)">4</a>
+    <a href='/search?from=40&to=49&excluded=&ingr=' onclick="pagination(5)">5</a>
+    <!-- <a href="#" onclick="pagination('+')">&raquo;</a> -->
+  </div>
 </main>
 
