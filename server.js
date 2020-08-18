@@ -147,8 +147,7 @@ async function searchHandler(req, res) {
   console.log('this is recipe array', recipes);
   if (recipes) {
     res.render("pages/recipeResult", {
-      recipes: recipes,
-      query: queryParams,
+      recipes: recipes
     });
   }
 }
@@ -166,6 +165,7 @@ async function addFav(req, res) {
   let localDate = dateNow.toLocaleDateString();
   recipeInfo.data = localDate;
   let result = await saveRecipeDB(recipeInfo);
+  res.redirect('/fav')
 }
 
 async function deleteFav(req, res) {
