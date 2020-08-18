@@ -36,6 +36,18 @@
   color: #fff;
 }
 
+#addCalories {
+    background-color: #fff;
+    color: #f46b45;
+    border: none;
+    border-radius: 60px;
+    padding: 10px 20px;
+    margin-left: 10px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-family: "Raleway", sans-serif;
+}
+
 #form-result {
   margin: 20px;
   background-color: ivory;
@@ -52,6 +64,10 @@
   text-align: center;
   font-size: 20px;
   margin-top: 20%;
+}
+
+.optimal-calories {
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 #calorie-card input[type="number"] {
@@ -88,45 +104,24 @@
 /* tabbing */
 
 .card-container ul {
+  width: fit-content;
   margin: 0 auto;
   display: flex;
   flex-flow: nowrap;
+  border-bottom: solid;
+}
+
+#tabs {
+  width: 80%;
 }
 
 /* profile card */
-
-#profile-card {
-  height: 480px;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 40px 1fr 20px 1fr 1fr;
-  grid-template-rows: 60px 1fr 1fr 20px 1fr 1fr;
-}
 
 #profile-card > * {
   padding: 20px;
 }
 
-.de1 {
-  grid-row: 2/4;
-  grid-column: 1/6;
-}
-
-.de2 {
-  grid-row: 5/7;
-  grid-column: 1/4;
-}
-
-.de3 {
-  grid-row: 5/7;
-  grid-column: 5/9;
-}
-
-.de4 {
-  grid-row: 2/4;
-  grid-column: 7/9;
-}
-
-.de4 img {
+.de4 img{
   object-fit: cover;
   width: 100%;
   max-height: 100%;
@@ -137,10 +132,10 @@
 .human-body {
   width: 100px;
   position: relative;
-  padding-top: 240px;
-  height: 130px;
-  display: block;
-  margin: 40px auto;
+  height: 200px;
+  z-index: -1;
+  float: right;
+  margin: 50px 13% 0 0;
 }
 .human-body svg:hover {
   cursor: pointer;
@@ -196,3 +191,38 @@
 #area #data {
   color: black;
 }
+
+@media all and (min-width: 760px) {
+  #profile-card {
+    height: fit-content;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 40px 1fr 20px 1fr 1fr;
+    grid-template-rows: 60px 1fr 1fr 20px 1fr 1fr;
+  }
+
+  .human-body {
+    grid-row: 1/7;
+    grid-column: 7/9;
+  }
+
+  .de1 {
+    grid-row: 2/4;
+    grid-column: 1/6;
+  }
+
+  .de2 {
+    grid-row: 5/7;
+    grid-column: 1/4;
+  }
+
+  .de3 {
+    grid-row: 5/7;
+    grid-column: 5/9;
+  }
+
+  .de4 {
+    grid-row: 2/4;
+    grid-column: 7/9;
+  }
+}
+

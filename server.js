@@ -154,8 +154,9 @@ async function deleteFav(req, res) {
 }
 
 //calculate
-function calculateCalories(req, res) {
-  res.render("pages/calorieCalculator");
+async function calculateCalories(req, res) {
+  let result = await getRecipeDB();
+  res.render("pages/calorieCalculator", { meals: result.meals });
 }
 // render result 
 async function renderIngredients(req, res) {

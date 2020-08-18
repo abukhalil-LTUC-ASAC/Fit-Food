@@ -8,12 +8,11 @@ $(document).ready(function () {
 
   // startup functions
   listeners();
-  formCaloriesListener();
   generateOptions(indexOption);
 
   // startup values
-  let maxCalories = localStorage.getItem('total') || 2000;
-  $('#maxCalories').val(maxCalories);
+  startUpValues();
+
 });
 
 // favorit icon
@@ -37,32 +36,44 @@ $('.fav').on({
 
 // --------------------- Functions --------------------- //
 
-function formCaloriesListener() {
-// event listener onchange form change Basal Metabolic Rate (BMR)
-  $('#form-calories').on('change', function() {
-    let weight = parseInt($('#weight').val());
-    let height = parseInt($('#height').val());
-    let age = parseInt($('#age').val());
-    let gender = $('input[name=\'gender\']:checked').val();
-    let total = localStorage.getItem('total') || 0;
+function startUpValues() {
+  $('#maxCalories').val(parseInt(localStorage.getItem('total') || 2000).toFixed(1));
+  $('.optimal-calories').html(parseInt(localStorage.getItem('total') || 2000).toFixed(1));
+  $('#weight').val(parseInt(localStorage.getItem('weight')));
+  $('#height').val(parseInt(localStorage.getItem('height')));
+  $('#age').val(parseInt(localStorage.getItem('age')));
+  $(`.radio-container input[value="${localStorage.getItem('gender')}"]`).attr('checked','checked');
+}
 
-    if (gender === 'male') {
-      total = (13.397*weight + 4.799*height - 5.677*age + 88.362).toFixed(1); // sourced from https://www.calculator.net/bmr-calculator.html
-    } else if (gender === 'female') {
-      total = (9.247*weight + 3.098*height - 4.330*age + 447.593).toFixed(1);
-    }
-    localStorage.setItem('total', total);
-    $('.optimal-calories').html(total);
-    $('input#baseCalories').val(total);
-  });
+
+function formCaloriesSubmit() {
+  alert('working');
+  // event listener onchange form change Basal Metabolic Rate (BMR)
+  let weight = parseInt($('#weight').val());
+  let height = parseInt($('#height').val());
+  let age = parseInt($('#age').val());
+  let gender = $('input[name=\'gender\']:checked').val();
+  let total = parseInt(localStorage.getItem('total') || 2000).toFixed(1);
+
+  if (gender === 'male') {
+    total = (13.397*weight + 4.799*height - 5.677*age + 88.362).toFixed(1); // sourced from https://www.calculator.net/bmr-calculator.html
+  } else if (gender === 'female') {
+    total = (9.247*weight + 3.098*height - 4.330*age + 447.593).toFixed(1);
+  }
+  localStorage.setItem('total', total);
+  localStorage.setItem('weight', weight);
+  localStorage.setItem('height', height);
+  localStorage.setItem('age', age);
+  localStorage.setItem('gender', gender);
+  $('.optimal-calories').html(total);
+  $('input#baseCalories').val(total);
+
 }
 
 // event listener on tabbing
 function listeners() {
-
   $('#tabs').tabs();
-
-  $('.optimal-calories').html(parseInt(localStorage.getItem('total')).toFixed(1));
+  $('#addCalories').click(formCaloriesSubmit);
   $('#addIngredient').click(renderAddIngredient);
   $('#removeIngredient').click(renderRemoveIngredient);
 }
