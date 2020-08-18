@@ -302,9 +302,9 @@ label:hover:before {
   background-color: #6eb257;
   color: white;
 }
-/*  input ingredient style  */
+ /* input ingredient style  */
 
-hr {
+/* hr {
   width: 100%;
 }
 
@@ -323,5 +323,5 @@ hr {
   box-sizing: border-box;
   font-family: "Raleway", sans-serif;
   font-size: 13pt;
-}
+} */
 
