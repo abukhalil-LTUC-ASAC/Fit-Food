@@ -10,7 +10,7 @@
         placeholder="e.g., tomato salad, potato, chocolate"
         required
       />
-      <button class="button-style hvr-back-pulse-green" type="submit">
+      <button id="resetBtn" class="button-style hvr-back-pulse-green" type="submit">
         Search
       </button>
       <button id="refine" class="button-style-2 hvr-back-pulse" type="button">
@@ -29,10 +29,10 @@
       </div>
       <div>
         <p>Calorie</p>
-        <label for="from">From</label>
-        <input id="from" type="number" name="from" placeholder="00.00" />
-        <label for="to">To</label>
-        <input id="to" type="number" name="to" placeholder="00.00" />
+        <label for="fromC">From</label>
+        <input id="fromC" type="number" name="fromC" placeholder="00.00" />
+        <label for="toC">To</label>
+        <input id="toC" type="number" name="toC" placeholder="00.00" />
         <a class="hvr-back-pulse-green" href="#">Calculate it</a>
       </div>
       <div>
@@ -45,6 +45,7 @@
         <label for="carb">Low carb</label>
         <input type="checkbox" id="high-protein" name="diet" value="high-protein" />
         <label for="high-protein">High protein</label>
+
       </div>
     </div>
   </form>
