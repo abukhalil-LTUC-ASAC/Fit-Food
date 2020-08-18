@@ -108,23 +108,43 @@ function aboutusHandler(req, res) {
 
 //search
 async function searchHandler(req, res) {
-  let ingredients = req.query.searchFood;
-  let from = req.query.from;
-  let to = req.query.to;
-  let diet = req.query.diet;
-  let health = req.query.health;
-  let excluded = req.query.excluded;
-  let ingr = req.query.ingr;
-  let recipes = await getRecipes(
-    ingredients,
-    from,
-    to,
-    diet,
-    health,
-    excluded,
-    ingr
-  );
+  queryParams.q = req.query.searchFood || queryParams.q;
+  queryParams.from = req.query.from || queryParams.from;
+  queryParams.to = req.query.to || queryParams.to;
+  let fromC = req.query.fromC;
+  let toC = req.query.toC;
+  if (fromC || toC) {
+    queryParams.calories = fromC && toC ? `${fromC}-${toC}` : fromC ? `${fromC}+` : toC ? `${toC}` : "0+" || queryParams.calories;
+  }
+  queryParams.diet = req.query.diet || queryParams.diet;
+  queryParams.health = req.query.health || queryParams.health;
+  queryParams.excluded = req.query.excluded || queryParams.excluded || '';
+  queryParams.ingr = req.query.ingr || queryParams.ingr || '';
 
+  // queryParams = {
+  //   q: ingredients,
+  //   app_id: APP_ID,
+  //   app_key: APP_KEY,
+  //   from: from,
+  //   to: to,
+  //   calories:
+  //     fromC && toC ? `${fromC}-${toC}` : fromC ? `${fromC}+` : toC ? `${toC}` : "0+",
+  //   diet: diet,
+  //   health: health,
+  //   excluded: excluded,
+  //   ingr: ingr,
+  // };
+
+  if (queryParams.excluded.length === 0) {
+    delete queryParams.excluded;
+  }
+
+  if (queryParams.ingr.length === 0) {
+    delete queryParams.ingr;
+  }
+
+  let recipes = await getRecipes(queryParams);
+  console.log('this is recipe array', recipes);
   if (recipes) {
     res.render("pages/recipeResult", {
       recipes: recipes
@@ -240,36 +260,23 @@ function errorHandler(req, res) {
 // -------------------------------- API FUNCTIONS --------------------------------
 
 //search recipe API
-function getRecipes(ingredients, from, to, diet, health, excluded, ingr) {
+function getRecipes(queryParams) {
   let url = "https://api.edamam.com/search";
-  let queryParams = {
-    q: ingredients,
-    app_id: APP_ID,
-    app_key: APP_KEY,
-    calories:
-      from && to ? `${from}-${to}` : from ? `${from}+` : to ? `${to}` : "0+",
-    diet: diet,
-    health: health,
-    excluded: excluded,
-    ingr: ingr,
-  };
+ 
+  console.log('queryParams', queryParams);
 
-  if (excluded.length === 0) {
-    delete queryParams.excluded;
-  }
-
-  if (ingr.length === 0) {
-    delete queryParams.ingr;
-  }
   let result = superagent
     .get(url)
     .query(queryParams)
     .then((res) => {
+      console.log(`response`, res);
       return res.body.hits.map((e) => {
         return new Recipe(e);
       });
     })
-    .catch((error) => {});
+    .catch((error) => {
+      console.log('error this', error);
+    });
   return result;
 }
 
@@ -481,19 +488,33 @@ function Ingredient(data) {
 }
 
 let TotalIngredients = {
-  "Total Fat": [0, 0],
-  "Saturated Fat": [0, 0],
-  "Trans Fat": [0, 0],
-  Cholesterol: [0, 0],
-  Sodium: [0, 0],
-  Carbohydrate: [0, 0],
-  "Dietary Fiber": [0, 0],
-  "Total Sugars": [0, 0],
-  Protein: [0, 0],
-  "Vitamin A": [0, 0],
-  "Vitamin C": [0, 0],
-  "Vitamin D": [0, 0],
-  Calcium: [0, 0],
-  Iron: [0, 0],
-  Potassium: [0, 0],
+  'Total Fat' : [0,0],
+  'Saturated Fat' : [0,0],
+  'Trans Fat' : [0,0],
+  Cholesterol : [0,0],
+  Sodium : [0,0],
+  Carbohydrate : [0,0],
+  'Dietary Fiber' : [0,0],
+  'Total Sugars' : [0,0],
+  Protein : [0,0],
+  'Vitamin A' : [0,0],
+  'Vitamin C' : [0,0],
+  'Vitamin D' : [0,0],
+  Calcium : [0,0],
+  Iron : [0,0],
+  Potassium : [0,0],
+}
+
+let queryParams = {
+  q: '',
+  app_id: APP_ID,
+  app_key: APP_KEY,
+  from: 0,
+  to: 9,
+  calories: "0+",
+  diet: undefined,
+  health: undefined,
+  excluded: '',
+  ingr: '',
 };
+

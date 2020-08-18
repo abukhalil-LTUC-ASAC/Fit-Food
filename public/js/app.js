@@ -13,6 +13,10 @@ $(document).ready(function () {
   // startup values
   startUpValues();
 
+  $('.pagination *').removeAttr('class');
+  let btn = parseInt(localStorage.getItem('btn'));
+  $(`.pagination a:nth-of-type(${btn})`).attr('class', 'active');
+
 });
 
 // favorit icon
@@ -45,9 +49,7 @@ function startUpValues() {
   $(`.radio-container input[value="${localStorage.getItem('gender')}"]`).attr('checked','checked');
 }
 
-
 function formCaloriesSubmit() {
-  alert('working');
   // event listener onchange form change Basal Metabolic Rate (BMR)
   let weight = parseInt($('#weight').val());
   let height = parseInt($('#height').val());
@@ -67,7 +69,16 @@ function formCaloriesSubmit() {
   localStorage.setItem('gender', gender);
   $('.optimal-calories').html(total);
   $('input#baseCalories').val(total);
+}
 
+function pagination(btn) {
+  $('.pagination *').removeAttr('class');
+  localStorage.setItem('btn', btn);
+  $(`.pagination a:nth-of-type(${btn})`).attr('class', 'active');
+}
+
+function resetBtn() {
+  localStorage.setItem('btn', 1);
 }
 
 // event listener on tabbing
@@ -76,6 +87,7 @@ function listeners() {
   $('#addCalories').click(formCaloriesSubmit);
   $('#addIngredient').click(renderAddIngredient);
   $('#removeIngredient').click(renderRemoveIngredient);
+  $('#resetBtn').click(resetBtn);
 }
 
 // option generator on startup
