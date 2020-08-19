@@ -151,7 +151,7 @@ async function addFav(req, res) {
   let localDate = dateNow.toLocaleDateString();
   recipeInfo.data = localDate;
   let result = await saveRecipeDB(recipeInfo);
-  res.redirect("/fav");
+  // res.redirect("/fav");
 }
 
 async function deleteFav(req, res) {
