@@ -48,6 +48,10 @@
     font-family: "Raleway", sans-serif;
 }
 
+#addCalories:focus{
+  outline: none;
+}
+
 #form-result {
   margin: 20px;
   background-color: ivory;
