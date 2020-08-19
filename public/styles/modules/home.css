@@ -66,9 +66,10 @@
 }
 
 .ingr-input {
-  padding: 10px 50px;
+  padding: 10px 20px;
   /* width: 100%; */
   margin: 0 20px;
+  width: 50%;
   border: none;
   border-radius: 100px;
   box-sizing: border-box;
@@ -302,7 +303,7 @@ label:hover:before {
   background-color: #6eb257;
   color: white;
 }
- /* input ingredient style  */
+/* input ingredient style  */
 
 /* hr {
   width: 100%;
@@ -334,12 +335,28 @@ label:hover:before {
   float: left;
   padding: 8px 16px;
   text-decoration: none;
-  transition: background-color .3s;
+  transition: background-color 0.3s;
 }
 
 .pagination a.active {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
 }
 
-.pagination a:hover:not(.active) {background-color: #ddd;}
+.pagination a:hover:not(.active) {
+  background-color: #ddd;
+}
+
+@media screen and (max-width: 800px) {
+  .ingr-input {
+    margin-top: 10px;
+  }
+
+  .secondDiv-home input[type="number"] {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  .secondDiv-home a{
+    margin-top:10px;
+  }
+}
