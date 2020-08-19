@@ -9,13 +9,11 @@ $(document).ready(function () {
   // startup functions
   listeners();
   generateOptions(indexOption);
-
+  generateSports(indexOption);
   // startup values
   startUpValues();
+  renderBarChart();
 
-  $('.pagination *').removeAttr('class');
-  let btn = parseInt(localStorage.getItem('btn'));
-  $(`.pagination a:nth-of-type(${btn})`).attr('class', 'active');
 });
 
 // favorit icon
@@ -40,19 +38,17 @@ $('.fav').on({
 // --------------------- Functions --------------------- //
 
 function startUpValues() {
-  $('#maxCalories').val(
-    parseInt(localStorage.getItem('total') || 2000).toFixed(1)
-  );
-  $('.optimal-calories').html(
-    parseInt(localStorage.getItem('total') || 2000).toFixed(1)
-  );
+  $('#maxCalories').val(parseInt(localStorage.getItem('total') || 2000).toFixed(1)); // calories page
+  $('.optimal-calories').html(parseInt(localStorage.getItem('total') || 2000).toFixed(1));
   $('#weight').val(parseInt(localStorage.getItem('weight')));
   $('#height').val(parseInt(localStorage.getItem('height')));
   $('#age').val(parseInt(localStorage.getItem('age')));
-  $(`.radio-container input[value="${localStorage.getItem('gender')}"]`).attr(
-    'checked',
-    'checked'
-  );
+  $(`.radio-container input[value="${localStorage.getItem('gender')}"]`).attr('checked','checked');
+  $('#thisCalories').html(parseInt(localStorage.getItem('total') || 2000).toFixed(1) + ' Calories');
+
+  $('.pagination *').removeAttr('class'); // pagination
+  let btn = parseInt(localStorage.getItem('btn'));
+  $(`.pagination a:nth-of-type(${btn})`).attr('class', 'active');
 }
 
 function formCaloriesSubmit() {
@@ -77,6 +73,7 @@ function formCaloriesSubmit() {
   localStorage.setItem('gender', gender);
   $('.optimal-calories').html(total);
   $('input#baseCalories').val(total);
+  setTimeout(function(){ window.location.replace("/"); }, 2000);
 }
 
 function pagination(btn) {
@@ -96,6 +93,8 @@ function listeners() {
   $('#addIngredient').click(renderAddIngredient);
   $('#removeIngredient').click(renderRemoveIngredient);
   $('#resetBtn').click(resetBtn);
+  // $("toggleBtn").click(toggleCharts);
+
 }
 
 // option generator on startup
@@ -124,6 +123,32 @@ function generateOptions(index) {
       $('<option></option>').attr('value', value.toLowerCase()).text(value)
     );
   });
+}
+
+// option generator on startup
+function generateSports(index) {
+  let exercise = {
+    walking: 267,
+    swimming: 492,
+    running: 773,
+    bicycling: 562,
+    football: 494,
+  }
+  
+  let select = $('#sportMeasure');
+
+  $.each(exercise, function(key, value) {
+    select
+      .append($('<option></option>')
+        .attr('value', value)
+        .text(key));
+  });
+}
+
+function activitySubmit() {
+  let activity = $('#sportMeasure').find(":selected").val();
+  let hours = $('#sportHours').val();
+  $('.burned-calories').html(activity*hours);
 }
 
 function renderAddIngredient() {
@@ -213,4 +238,85 @@ window.onload = function () {
   });
   chart.render();
 
+// ------ slideshow ------ //
+
+var slideIndex = 1;
+showSlides(slideIndex);
+
+// Next/previous controls
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+// Thumbnail image controls
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+  }
+  slides[slideIndex-1].style.display = "flex";
+}
+
+var slideIndex = 0;
+autoShowSlides();
+
+function autoShowSlides() {
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";  
+  }
+  slideIndex++;
+  if (slideIndex > slides.length) {slideIndex = 1}    
+
+  slides[slideIndex-1].style.display = "flex";  
+  setTimeout(autoShowSlides, 6000); // Change image every 6 seconds
+}
+
+
+// function toggleCharts() {
+//   chart.destroy();
+
+//   if (chartToggle == 1) {
+//     renderPieChart();
+//     chartToggle = 2;
+//   } 
+//   else if (chartToggle == 2) {
+//     renderBarChartTotal();
+//     chartToggle = 3;
+//   }
+//   else if (chartToggle == 3) {
+//     renderBarChart();
+//     chartToggle = 1;
+//   }
+// }
+
+function renderBarChart(){
+  var chartDiv = document.getElementById('myChart').getContext('2d'); // canvas drawing
+  chartDiv.innerHTML = '';
+  let chart = new Chart(chartDiv, {
+    type: 'bar',
+    data: {
+      labels : ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      datasets : [
+      {
+        label: 'Average Caloric %',
+        backgroundColor: '#7d5353',
+        data : [89,99,120,90,85,83,80]
+      },
+      {
+        type: 'line',
+        label: "Average Fat %",
+        fill: false,
+        data: [94,110,100,85,45,63,86],
+      },
+    ]}
+  })
 }
