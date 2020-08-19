@@ -68,6 +68,8 @@
         </div>
       </form>
     </div>
+    <% if (nutritionArray.length != 0) { %>
+
     <div id="ingredients-input">
       <% let totalCalories = 0; %>
       <div>
@@ -116,8 +118,9 @@
             <tr>
               <th colspan="2" id="lkcal-val-cal"><b>Calories</b></th>
               <td class="nob">
+                <% maxCalories = maxCalories || 0; %>
                 <%= totalCalories %> / <%=
-                (totalCalories*100/maxCalories).toFixed(1) %>%
+                (totalCalories*100/(maxCalories + 1)).toFixed(1) %>%
               </td>
             </tr>
             <tr class="thick-row">
@@ -150,5 +153,6 @@
         </p>
       </section>
     </div>
+    <% } %>
   </div>
 </main>
