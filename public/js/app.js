@@ -73,7 +73,7 @@ function formCaloriesSubmit() {
   localStorage.setItem('gender', gender);
   $('.optimal-calories').html(total);
   $('input#baseCalories').val(total);
-  setTimeout(function(){ window.location.replace('/'); }, 2000);
+  setTimeout(function(){ window.location.replace('/'); }, 5000);
 }
 
 function pagination(btn) {
