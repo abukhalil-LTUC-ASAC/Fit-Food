@@ -1,20 +1,19 @@
 'use strict';
 let indexOption = 0;
 // hide and show filters in home page
-$(document).ready(function () {
-  $('#refine').click(function () {
-    $('#filter').slideToggle();
-  });
-
-  // startup functions
-  listeners();
-  generateOptions(indexOption);
-  generateSports(indexOption);
-  // startup values
-  startUpValues();
-  renderBarChart();
-
+// $(document).ready(function () {
+$('#refine').click(function () {
+  $('#filter').slideToggle();
 });
+
+// startup functions
+listeners();
+generateOptions(indexOption);
+generateSports(indexOption);
+// startup values
+startUpValues();
+
+// });
 
 // favorit icon
 $('.fav').on({
@@ -188,136 +187,4 @@ hamburger.addEventListener('click', () => {
   hamburger.classList.toggle('toggle');
 });
 
-// Chartsa
-// var ctx = document.getElementById('myChart').getContext('2d');
 
-// var myPieChart = new Chart(ctx, {
-//   type: 'doughnut',
-//   data: {
-//     labels: ['Africa', 'Asia', 'Europe', 'Latin America', 'North America'],
-//     datasets: [
-//       {
-//         label: 'Population (millions)',
-//         backgroundColor: ['#3e95cd', '#8e5ea2','#3cba9f','#e8c3b9','#c45850'],
-//         data: [2478,5267,734,784,433],
-//         borderWidth: '1',
-//         weight: '3'
-//       }
-//     ]
-//   },
-//   options: {
-//     title: {
-//       display: true,
-//       text: 'Predicted world population (millions) in 2050'
-//     }
-//   }
-// });
-
-
-window.onload = function () {
-
-  var chart = new CanvasJS.Chart('chartContainer', {
-    animationEnabled: true,
-    title:{
-      text: 'Email Categories',
-      horizontalAlign: 'left'
-    },
-    data: [{
-      type: 'doughnut',
-      startAngle: 60,
-      //innerRadius: 60,
-      indexLabelFontSize: 17,
-      indexLabel: '{label} - #percent%',
-      toolTipContent: '<b>{label}:</b> {y} (#percent%)',
-      dataPoints: [
-        { y: 67, label: 'Inbox' },
-        { y: 28, label: 'Archives' },
-        { y: 10, label: 'Labels' },
-      ]
-    }]
-  });
-  chart.render();
-
-  // ------ slideshow ------ //
-
-  var slideIndex = 1;
-  showSlides(slideIndex);
-
-  // Next/previous controls
-  function plusSlides(n) {
-    showSlides(slideIndex += n);
-  }
-
-  // Thumbnail image controls
-  function currentSlide(n) {
-    showSlides(slideIndex = n);
-  }
-
-  function showSlides(n) {
-    var i;
-    var slides = document.getElementsByClassName('mySlides');
-    if (n > slides.length) {slideIndex = 1}
-    if (n < 1) {slideIndex = slides.length}
-    for (i = 0; i < slides.length; i++) {
-      slides[i].style.display = 'none';
-    }
-    slides[slideIndex-1].style.display = 'flex';
-  }
-
-  var slideIndex = 0;
-  autoShowSlides();
-
-  function autoShowSlides() {
-    var i;
-    var slides = document.getElementsByClassName('mySlides');
-    for (i = 0; i < slides.length; i++) {
-      slides[i].style.display = 'none';
-    }
-    slideIndex++;
-    if (slideIndex > slides.length) {slideIndex = 1}
-
-    slides[slideIndex-1].style.display = 'flex';
-    setTimeout(autoShowSlides, 6000); // Change image every 6 seconds
-  }
-
-
-  // function toggleCharts() {
-  //   chart.destroy();
-
-  //   if (chartToggle == 1) {
-  //     renderPieChart();
-  //     chartToggle = 2;
-  //   }
-  //   else if (chartToggle == 2) {
-  //     renderBarChartTotal();
-  //     chartToggle = 3;
-  //   }
-  //   else if (chartToggle == 3) {
-  //     renderBarChart();
-  //     chartToggle = 1;
-  //   }
-  // }
-
-  function renderBarChart(){
-    var chartDiv = document.getElementById('myChart').getContext('2d'); // canvas drawing
-    chartDiv.innerHTML = '';
-    let chart = new Chart(chartDiv, {
-      type: 'bar',
-      data: {
-        labels : ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-        datasets : [
-          {
-            label: 'Average Caloric %',
-            backgroundColor: '#7d5353',
-            data : [89,99,120,90,85,83,80]
-          },
-          {
-            type: 'line',
-            label: 'Average Fat %',
-            fill: false,
-            data: [94,110,100,85,45,63,86],
-          },
-        ]}
-    })
-  }
-}
