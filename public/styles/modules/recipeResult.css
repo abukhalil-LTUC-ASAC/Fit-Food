@@ -1,20 +1,16 @@
-
 .card-container {
-  display: flex;
-  display: -webkit-flex;
   -webkit-justify-content: center;
   -webkit-align-items: center;
   justify-content: center;
   align-items: center;
   margin: 50px auto;
+  text-align-last: center;
 }
 
 .fav {
   cursor: pointer;
   color: #646363;
-
 }
-
 
 .cards {
   width: 100%;
@@ -32,7 +28,6 @@
 
   /* background-image: url("https://images.pexels.com/photos/45202/brownie-dessert-cake-sweet-45202.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"); */
 }
-
 
 .card__like {
   width: 18px;
@@ -72,6 +67,7 @@
   opacity: 0;
   top: 0;
   z-index: 9999;
+  width: fit-content;
 }
 
 .card__img--hover {
@@ -83,8 +79,8 @@
   position: absolute;
   object-fit: cover;
   height: 235px;
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
+  /* border-top-left-radius: 12px;
+  border-top-right-radius: 12px; */
   top: 0;
 }
 .card {
@@ -130,7 +126,7 @@
   font-size: 12px;
   font-family: "Raleway", sans-serif;
   font-weight: 500;
-  color:#646363
+  color: #646363;
 }
 
 .card__author {
@@ -159,15 +155,30 @@
   display: flex;
   justify-content: space-around;
 }
-.fav{
-  background-color: transparent;
-    border: none;
-}
-.favIcon:active{
-color: #f46b45;
-}
-
-.deleteButton{
+.fav {
   background-color: transparent;
   border: none;
+}
+.favIcon:active {
+  color: #f46b45;
+}
+.fav:focus{
+  outline: none;
+}
+
+.deleteButton {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.deleteButton:focus{
+  outline: none;
+}
+
+
+@media screen and (max-width: 800px) {
+  .card-container {
+    padding-top: 100px;
+  }
 }

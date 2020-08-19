@@ -73,16 +73,23 @@ app.delete("/recipe/:id", deleteFav);
 // get calculator
 app.get("/calculate", calculateCalories);
 
+// get ingredients
+app.get("/ingredientDetails", renderIngredients);
+
 // post ingredients
-app.post("/dataIng", renderIngredients);
+app.post("/ingredientDetails", renderIngredients);
 
 // get recipe by uri
 app.get("/recipeDetails/", recipeDetailsHandler);
- s
 
 // aboutus route
-app.get("/aboutus",aboutusHandler);
+app.get("/newAboutus", aboutusHandler);
 
+// nutrition Wizard page
+app.get("/nutritionWizard", nutritionWizardHandler);
+
+// get fav recipe by id
+app.get("/favDetails/", favDetailsHandler);
 
 // all other routes
 app.all("*", errorHandler);
@@ -94,34 +101,39 @@ function homeHandler(req, res) {
   res.render("index");
 }
 
-
 //aboutus
-function aboutusHandler(req, res){
-  res.render("pages/aboutus");
-
+function aboutusHandler(req, res) {
+  res.render("pages/newAboutus");
+}
 
 //search
 async function searchHandler(req, res) {
-  let ingredients = req.query.searchFood;
-  let from = req.query.from;
-  let to = req.query.to;
-  let diet = req.query.diet;
-  let health = req.query.health;
-  let excluded = req.query.excluded;
-  let ingr = req.query.ingr;
-  let recipes = await getRecipes(
-    ingredients,
-    from,
-    to,
-    diet,
-    health,
-    excluded,
-    ingr
-  );
+  queryParams.q = req.query.searchFood || queryParams.q;
+  queryParams.from = req.query.from || queryParams.from;
+  queryParams.to = req.query.to || queryParams.to;
+  let fromC = req.query.fromC;
+  let toC = req.query.toC;
+  if (fromC || toC) {
+    queryParams.calories = fromC && toC ? `${fromC}-${toC}` : fromC ? `${fromC}+` : toC ? `${toC}` : "0+" || queryParams.calories;
+  }
+  queryParams.diet = req.query.diet || queryParams.diet;
+  queryParams.health = req.query.health || queryParams.health;
+  queryParams.excluded = req.query.excluded || queryParams.excluded || '';
+  queryParams.ingr = req.query.ingr || queryParams.ingr || '';
 
+  if (queryParams.excluded.length === 0) {
+    delete queryParams.excluded;
+  }
+
+  if (queryParams.ingr.length === 0) {
+    delete queryParams.ingr;
+  }
+
+  let recipes = await getRecipes(queryParams);
+  console.log('this is recipe array', recipes);
   if (recipes) {
     res.render("pages/recipeResult", {
-      recipes: recipes,
+      recipes: recipes
     });
   }
 }
@@ -139,6 +151,7 @@ async function addFav(req, res) {
   let localDate = dateNow.toLocaleDateString();
   recipeInfo.data = localDate;
   let result = await saveRecipeDB(recipeInfo);
+  res.redirect("/fav");
 }
 
 async function deleteFav(req, res) {
@@ -148,14 +161,34 @@ async function deleteFav(req, res) {
 }
 
 //calculate
-function calculateCalories(req, res) {
-  res.render("pages/calorieCalculator");
+async function calculateCalories(req, res) {
+  let result = await getRecipeDB();
+  console.log(result.meals)
+  res.render("pages/calorieCalculator", { meals: result.meals });
 }
-
 // render result
 async function renderIngredients(req, res) {
   let length = Math.floor(Object.keys(req.body).length / 3) - 1;
+  let nutritionArray = [];
+  let maxCalories = req.body.maxCalories;
+
+  for (var key in TotalIngredients) {
+    TotalIngredients[key][0] = 0;
+    TotalIngredients[key][1] = 0;
+  }
+
   for (var i = 0; i <= length; i++) {
+    //     let stringName = "searchIngredient" + i;
+    //     let stringAmount = "ingredientAmount" + i;
+    //     let stringMeasure = "ingredientMeasure" + i;
+    //     let allString =
+    //       req.body[stringName] +
+    //       " " +
+    //       req.body[stringAmount] +
+    //       " " +
+    //       req.body[stringMeasure];
+    //     let nutrition = await getNutrition(allString);
+    // console.log(nutrition);
     let stringName = "searchIngredient" + i;
     let stringAmount = "ingredientAmount" + i;
     let stringMeasure = "ingredientMeasure" + i;
@@ -165,9 +198,24 @@ async function renderIngredients(req, res) {
       req.body[stringAmount] +
       " " +
       req.body[stringMeasure];
-    let nutrition = await getNutrition(allString);
-    console.log(nutrition);
+    let ingredient = await getNutrition(allString);
+
+    // addNutrition = ();
+    nutritionArray.push(ingredient);
   }
+  console.log(nutritionArray);
+  nutritionArray.forEach((ingredient) => {
+    // sums all nutrients
+    for (var key in ingredient.nutrients) {
+      TotalIngredients[key][0] += parseInt(ingredient.nutrients[key][0]);
+      TotalIngredients[key][1] += parseInt(ingredient.nutrients[key][1]);
+    }
+  });
+  res.render("pages/nutritionDetail", {
+    maxCalories: maxCalories,
+    nutritionArray: nutritionArray,
+    TotalIngredients: TotalIngredients,
+  });
 }
 
 //recipe details
@@ -177,46 +225,44 @@ async function recipeDetailsHandler(req, res) {
   res.render("pages/recipeDetail", { recipe: recipe });
 }
 
+// Nutrition Wizard
+function nutritionWizardHandler(req, res) {
+  res.render("pages/nutritionWizard");
+}
+
+// get favorite recipe by id
+async function favDetailsHandler(req, res) {
+  let id = req.query.id;
+  let favorite = await getFavByIdDB(id);
+  // console.log(favorite);
+  res.render("pages/favDetails", { recipe: favorite });
+}
 //error
 function errorHandler(req, res) {
   res.status(404).render("pages/error", {
-    message: "page not found !"
+    message: "Page not found !",
   });
 }
 
 // -------------------------------- API FUNCTIONS --------------------------------
 
 //search recipe API
-function getRecipes(ingredients, from, to, diet, health, excluded, ingr) {
+function getRecipes(queryParams) {
   let url = "https://api.edamam.com/search";
-  let queryParams = {
-    q: ingredients,
-    app_id: APP_ID,
-    app_key: APP_KEY,
-    calories:
-      from && to ? `${from}-${to}` : from ? `${from}+` : to ? `${to}` : "0+",
-    diet: diet,
-    health: health,
-    excluded: excluded,
-    ingr: ingr,
-  };
+ 
+  console.log('queryParams', queryParams);
 
-  if (excluded.length === 0) {
-    delete queryParams.excluded;
-  }
-
-  if (ingr.length === 0) {
-    delete queryParams.ingr;
-  }
   let result = superagent
     .get(url)
     .query(queryParams)
     .then((res) => {
+      console.log(`response`, res);
       return res.body.hits.map((e) => {
         return new Recipe(e);
       });
     })
     .catch((error) => {
+      console.log('error this', error);
     });
   return result;
 }
@@ -233,12 +279,17 @@ function getNutrition(string) {
     .get(url)
     .query(queryParams)
     .then((res) => {
+      //       // console.log(res.body);
+      //       return new Nutrients(res.body);
+      //     })
+      //     .catch((error) => {});
+      //   // console.log(result);
+
       console.log(res.body);
-      return new Nutrients(res.body);
-    })
-    .catch((error) => {
+      return new Ingredient(res.body);
     });
   console.log(result);
+
   return result;
 }
 
@@ -250,15 +301,14 @@ function getRecipeByURI(uri) {
     app_id: APP_ID,
     app_key: APP_KEY,
   };
-  console.log(queryParams);
+  // console.log(queryParams);
   let result = superagent
     .get(url)
     .query(queryParams)
     .then((res) => {
       return new Recipe({ recipe: res.body[0] });
     })
-    .catch((error) => {
-    });
+    .catch((error) => {});
   return result;
 }
 
@@ -284,21 +334,32 @@ function saveRecipeDB(recipeInfo) {
     .then((result) => {
       return result.rows;
     })
-    .catch((error) => {
-    });
+    .catch((error) => {});
 }
 
 // Get recipe from database
 function getRecipeDB() {
-  let SQL = "SELECT * FROM recipes";
+  let SQL = "SELECT * FROM recipes ORDER BY id DESC";
   return client
     .query(SQL)
     .then((result) => {
-      console.log("result", result);
+      // console.log("result", result);
       return { meals: result.rows };
     })
-    .catch((error) => {
-    });
+    .catch((error) => {});
+}
+
+// get favorite recipe by id from database
+function getFavByIdDB(id) {
+  console.log(id);
+  let SQL = "SELECT * FROM recipes WHERE id=$1";
+  let values = [id];
+  return client
+    .query(SQL, values)
+    .then((result) => {
+      return result.rows[0];
+    })
+    .catch((error) => {});
 }
 
 // delete recipe from database
@@ -309,8 +370,7 @@ function deleteRecipeDB(recipeId) {
     .then((result) => {
       return { meals: result.rows };
     })
-    .catch((error) => {
-    });
+    .catch((error) => {});
 }
 
 // -------------------------------- CONSTRUCTORS --------------------------------
@@ -325,11 +385,123 @@ function Recipe(data) {
   this.calPerServ = Math.round(this.totalCalories / this.servings);
 }
 
-function Nutrients(data) {
+function Ingredient(data) {
   this.uri = encodeURIComponent(data.uri);
   this.title = data.ingredients[0].parsed[0].food;
+  this.quantity = data.ingredients[0].parsed[0].quantity;
+  this.measure = data.ingredients[0].parsed[0].measure;
   this.totalCalories = Math.round(data.calories);
   this.weight = data.ingredients[0].parsed[0].weight;
   this.id = data.ingredients[0].parsed[0].foodId;
-  // this.calPercentage = Math.round(totalCalories / maxCalories);
+  this.nutrients = {
+    "Total Fat": [
+      data.totalNutrients.FAT.quantity.toFixed(1) || 0,
+      data.totalDaily.FAT.quantity.toFixed(1) || 0,
+      data.totalNutrients.FAT.unit,
+    ],
+    "Saturated Fat": [
+      data.totalNutrients.FASAT.quantity.toFixed(1) || 0,
+      data.totalDaily.FASAT.quantity.toFixed(1) || 0,
+      data.totalNutrients.FASAT.unit,
+    ],
+    "Trans Fat": [
+      (
+        data.totalNutrients.FAMS.quantity + data.totalNutrients.FAPU.quantity
+      ).toFixed(1) || 0,
+      0,
+      data.totalNutrients.FAPU.unit,
+    ],
+    Cholesterol: [
+      data.totalNutrients.CHOLE.quantity.toFixed(1) || 0,
+      data.totalDaily.CHOLE.quantity.toFixed(1) || 0,
+      data.totalNutrients.CHOLE.unit,
+    ],
+    Sodium: [
+      data.totalNutrients.NA.quantity.toFixed(1) || 0,
+      data.totalDaily.NA.quantity.toFixed(1) || 0,
+      data.totalNutrients.NA.unit,
+    ],
+    Carbohydrate: [
+      data.totalNutrients.CHOCDF.quantity.toFixed(1) || 0,
+      data.totalDaily.CHOCDF.quantity.toFixed(1) || 0,
+      data.totalNutrients.CHOCDF.unit,
+    ],
+    "Dietary Fiber": [
+      data.totalNutrients.FIBTG.quantity.toFixed(1) || 0,
+      data.totalDaily.FIBTG.quantity.toFixed(1) || 0,
+      data.totalNutrients.FIBTG.unit,
+    ],
+    "Total Sugars": [
+      data.totalNutrients.SUGAR.quantity.toFixed(1) || 0,
+      0,
+      data.totalNutrients.SUGAR.unit,
+    ],
+    Protein: [
+      data.totalNutrients.PROCNT.quantity.toFixed(1) || 0,
+      data.totalDaily.PROCNT.quantity.toFixed(1) || 0,
+      data.totalNutrients.PROCNT.unit,
+    ],
+    "Vitamin A": [
+      data.totalNutrients.VITA_RAE.quantity.toFixed(1) || 0,
+      data.totalDaily.VITA_RAE.quantity.toFixed(1) || 0,
+      data.totalNutrients.VITA_RAE.unit,
+    ],
+    "Vitamin C": [
+      data.totalNutrients.VITC.quantity.toFixed(1) || 0,
+      data.totalDaily.VITC.quantity.toFixed(1) || 0,
+      data.totalNutrients.VITC.unit,
+    ],
+    "Vitamin D": [
+      data.totalNutrients.VITD.quantity.toFixed(1) || 0,
+      data.totalDaily.VITD.quantity.toFixed(1) || 0,
+      data.totalNutrients.VITD.unit,
+    ],
+    Calcium: [
+      data.totalNutrients.CA.quantity.toFixed(1) || 0,
+      data.totalDaily.CA.quantity.toFixed(1) || 0,
+      data.totalNutrients.CA.unit,
+    ],
+    Iron: [
+      data.totalNutrients.FE.quantity.toFixed(1) || 0,
+      data.totalDaily.FE.quantity.toFixed(1) || 0,
+      data.totalNutrients.FE.unit,
+    ],
+    Potassium: [
+      data.totalNutrients.K.quantity.toFixed(1) || 0,
+      data.totalDaily.K.quantity.toFixed(1) || 0,
+      data.totalNutrients.K.unit,
+    ],
+  };
 }
+
+let TotalIngredients = {
+  'Total Fat' : [0,0],
+  'Saturated Fat' : [0,0],
+  'Trans Fat' : [0,0],
+  Cholesterol : [0,0],
+  Sodium : [0,0],
+  Carbohydrate : [0,0],
+  'Dietary Fiber' : [0,0],
+  'Total Sugars' : [0,0],
+  Protein : [0,0],
+  'Vitamin A' : [0,0],
+  'Vitamin C' : [0,0],
+  'Vitamin D' : [0,0],
+  Calcium : [0,0],
+  Iron : [0,0],
+  Potassium : [0,0],
+}
+
+let queryParams = {
+  q: '',
+  app_id: APP_ID,
+  app_key: APP_KEY,
+  from: 0,
+  to: 9,
+  calories: "0+",
+  diet: undefined,
+  health: undefined,
+  excluded: '',
+  ingr: '',
+};
+

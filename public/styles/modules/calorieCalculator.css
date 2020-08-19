@@ -1,4 +1,16 @@
-
+.gradiant-img-background-2 {
+  padding: 100px 0;
+  background-image: linear-gradient(
+      to left,
+      rgba(238, 168, 73, 0.8),
+      rgba(244, 107, 69, 0.8)
+    ),
+    url("https://images.pexels.com/photos/3253501/pexels-photo-3253501.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+  background-size: cover;
+  background-position: 50% 50%;
+  display: flex;
+  flex-direction: column;
+}
 #calorie-card {
   display: flex;
   flex-flow: wrap;
@@ -9,6 +21,10 @@
 
 #calorie-card legend {
   margin: 0 auto;
+  font-family: "Playfair Display", serif;
+  font-size: 25pt;
+  color: #fff;
+  font-weight: bold;
 }
 
 #form-calories fieldset {
@@ -17,7 +33,19 @@
 }
 
 #form-calories label {
+  color: #fff;
+}
 
+#addCalories {
+    background-color: #fff;
+    color: #f46b45;
+    border: none;
+    border-radius: 60px;
+    padding: 10px 20px;
+    margin-left: 10px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-family: "Raleway", sans-serif;
 }
 
 #form-result {
@@ -36,13 +64,26 @@
   text-align: center;
   font-size: 20px;
   margin-top: 20%;
+  color: black;
+}
+
+.optimal-calories {
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 #calorie-card input[type="number"] {
   width: 100%;
-  margin: 5px 0 15px 0;
-  padding: 7px;
-  border-radius: 15px;
+  margin: 15px 0 15px 0;
+  padding: 15px 25px;
+  border: none;
+  border-radius: 100px;
+  box-sizing: border-box;
+  font-family: "Raleway", sans-serif;
+  font-size: 10pt;
+}
+
+#calorie-card input[type="number"]:focus{
+  outline: none;
 }
 
 .radio-container {
@@ -62,44 +103,68 @@
 }
 
 /* tabbing */
+#tabs ul{
+  width: 50%;
+  display: flex;
+  flex-flow: nowrap;
+  text-decoration: none;
+  color: #646363;
+  margin: 0 auto;
+  margin: 30px auto;
+  justify-content: center;
+}
 
 .card-container ul {
+  width: fit-content;
   margin: 0 auto;
   display: flex;
-    flex-flow: nowrap;
+  flex-flow: nowrap;
+  border-bottom: solid;
+}
+
+#tabs a {
+  text-decoration: none;
+  z-index: 0;
+  color: black;
+  padding: 20px;
+}
+
+#tabs li {
+  background: #ffffffa3;
+  padding: 20px;
+  margin: 0;
+}
+
+.tabs01 {
+  border-top-left-radius: 100px;
+  border-bottom-left-radius: 100px;
+}
+
+.tabs02 {
+  border-top-right-radius: 100px;
+  border-bottom-right-radius: 100px;
+}
+
+#tabs a:link { 
+  text-decoration: none; 
+} 
+#tabs a:hover { 
+  text-decoration: none; 
+} 
+
+#tabs {
+  width: 80%;
+  margin: 0 auto;
 }
 
 /* profile card */
-
-#profile-card {
-  height: 480px;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 40px 1fr 20px 1fr 1fr;
-  grid-template-rows: 60px 1fr 1fr 20px 1fr 1fr;
-}
 
 #profile-card > * {
   padding: 20px;
 }
 
-.de1 {
-  grid-row: 2/4;
-  grid-column: 1/6;
-}
-
-.de2 {
-  grid-row: 5/7;
-  grid-column: 1/4;
-}
-
-.de3 {
-  grid-row: 5/7;
-  grid-column: 5/9;
-}
-
-.de4 {
-  grid-row: 2/4;
-  grid-column: 7/9;
+#profile-card {
+  background: rgba(255, 255, 255, 0.301);
 }
 
 .de4 img{
@@ -113,10 +178,10 @@
 .human-body {
   width: 100px;
   position: relative;
-  padding-top: 240px;
-  height: 130px;
-  display: block;
-  margin: 40px auto;
+  height: 200px;
+  z-index: -1;
+  float: right;
+  margin: 50px 13% 0 0;
 }
 .human-body svg:hover {
   cursor: pointer;
@@ -141,7 +206,7 @@
   margin-left: -78px;
   top: 112px;
 }
-.human-body svg.cheast {
+.human-body svg.chest {
   margin-left: -43.5px;
   top: 88px;
 }
@@ -171,4 +236,192 @@
 
 #area #data {
   color: black;
+}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 300px;
+  position: relative;
+  margin: auto;
+}
+
+.gradiant-img-background-2 h2 {
+  font-family: "Playfair Display", serif;
+  font-size: 25pt;
+  color: #fff;
+  font-weight: bold;
+}
+
+.slideshow-container h2 {
+  margin: 0 auto 10% auto;
+ }
+
+.sportDiv {
+  display: flex;
+}
+
+.sport {
+  /* width: 100px; */
+}
+
+.sport{
+  margin: 10px 2px;
+  padding: 15px 25px;
+  border: none;
+  border-radius: 0;
+  box-sizing: border-box;
+  font-family: "Raleway", sans-serif;
+  color: #646363;
+  font-size: 10pt;
+}
+
+#sportActivity {
+  background-color: #fff;
+  color: #f46b45;
+  border: none;
+  border-radius: 60px;
+  padding: 10px 20px;
+  margin-left: 10px;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-family: "Raleway", sans-serif;
+}
+
+/* Hide the images by default */
+.mySlides {
+  display: none;
+  display: flex;
+  flex-flow: row;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+/* Caption text */
+.text {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.39);
+  text-align: center;
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  background: #2525257a;
+  border-bottom-right-radius: 10px;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}
+
+@keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}
+
+@media all and (min-width: 760px) {
+  #profile-card {
+    height: fit-content;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 40px 1fr 20px 1fr 1fr;
+    grid-template-rows: 60px 1fr 1fr 40px 1fr;
+  }
+
+  .human-body {
+    grid-row: 1/6;
+    grid-column: 7/9;
+  }
+
+  .de0 { 
+    grid-row: 1/1;
+    grid-column: 1/3;
+  }
+
+  .de1 {
+    grid-row: 2/3;
+    grid-column: 1/6;
+  }
+
+  .de2 {
+    grid-row: 3/6;
+    grid-column: 7/9;
+  }
+
+  .de3 {
+    grid-row: 3/6;
+    grid-column: 1/6;
+  }
+
+  .de4 {
+    grid-row: 1/3;
+    grid-column: 7/9;
+  }
+}
+
+.de0 {
+  font-size: 20pt;
+  font-family: "Roboto Slab", serif;
+  color: #646363;
+}
+
+.de4 {
+  align-self: center;
 }

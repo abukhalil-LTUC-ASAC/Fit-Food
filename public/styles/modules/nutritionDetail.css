@@ -1,0 +1,260 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+.nutrition-background {
+  background-image: linear-gradient(
+      to left,
+      rgba(238, 168, 73, 0.8),
+      rgba(244, 107, 69, 0.8)
+    ),
+    url("https://images.pexels.com/photos/4199098/pexels-photo-4199098.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940");
+  background-size: cover;
+  background-position: 50% 50%;
+  position: relative;
+  padding: 100px 50px;
+}
+#ingredients-container h2 {
+  font-family: "Playfair Display", serif;
+  font-size: 25pt;
+  color: #fff;
+  font-weight: bold;
+}
+
+#ingredients-container h2 {
+  grid-area: title;
+}
+
+#ingredients-user {
+  grid-area: user;
+}
+
+#ingredients-input {
+  grid-area: input;
+}
+
+#ingredients-output {
+  grid-area: output;
+}
+
+#ingredients-container {
+  width: 85%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-areas:
+    "title"
+    "user"
+    "input"
+    "output";
+  grid-gap: 20px;
+  /* font-weight: bold; */
+}
+
+@media all and (min-width: 760px) {
+  #ingredients-container {
+    grid-gap: 20px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-areas:
+      "title title"
+      "user output"
+      "input output"
+      "input output"
+      "empty output";
+      grid-template-columns: 1fr 1fr;
+
+    /* font-weight: bold; */
+  }
+}
+
+/* --------------- User table style --------------- */
+
+.template-add-area {
+  /* background-color: rgba(238, 168, 73, 0.7); */
+  display: flex;
+  flex-direction: column;
+  /* padding: 10px; */
+  /* border-radius: 10px; */
+}
+
+.template-add-area div {
+  /* background-color: rgba(238, 168, 73, 0.7); */
+  display: flex;
+  justify-content: center;
+}
+
+.input_ingr {
+  color: #ffffff;
+  font-size: 30pt;
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+  margin: 10px auto;
+}
+
+.input-list-style {
+  width: 100%;
+  margin: 10px 2px;
+  padding: 15px 25px;
+  border: none;
+  border-radius: 0;
+  box-sizing: border-box;
+  font-family: "Raleway", sans-serif;
+  color: #646363;
+  font-size: 10pt;
+}
+.input-list-style:first-child{
+  border-top-left-radius: 100px;
+  border-bottom-left-radius: 100px;
+} 
+.input-list-style:last-child{
+  border-top-right-radius: 100px;
+  border-bottom-right-radius: 100px;
+} 
+.input-list-style:focus {
+  outline: none;
+}
+
+/* --------------- input table style --------------- */
+
+#ingredients-input .table {
+  border: 2px solid #979797 !important;
+  margin: 20px auto !important;
+  width: 80%;
+  text-align: center;
+  color: #585858;
+  font-size: 12px;
+  background-color: white;
+}
+
+#ingredients-input th {
+  font-weight: 400;
+  text-align: left;
+}
+
+#ingredients-input .table > tbody > tr > td,
+#ingredients-input .table > tbody > tr > th,
+#ingredients-input .table > tfoot > tr > td,
+#ingredients-input .table > tfoot > tr > th,
+#ingredients-input .table > thead > tr > td,
+#ingredients-input .table > thead > tr > th {
+  border-top: 1px solid #f2f6f9;
+  padding: 8px;
+  line-height: 1.42857143;
+  vertical-align: top;
+}
+
+#ingredients-input .table > thead > tr > th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #979797;
+}
+
+/* --------------- output table style --------------- */
+
+b {
+  font-weight: bold;
+}
+
+.performance-facts {
+  margin: 40px 10px auto;
+  width: auto;
+  padding: 0 20px;
+  border: 1px solid black;
+  margin: 20px auto;
+  width: 280px;
+  padding: 0.5rem;
+  color: #000;
+  font-family: Roboto !important;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.42857143;
+  background-color: white;
+}
+
+.performance-facts__table #lkcal-val-cal {
+  font-size: 35px;
+  border: 0 none !important;
+}
+
+.performance-facts__table .thick-row td {
+  border-top-width: 5px;
+}
+
+.nutritionDetail {
+  margin: 10px;
+  padding: 10px;
+}
+
+/* #ingredients-container h1 {
+  border: 0 none;
+  font-weight: 300;
+  padding: 15px 0 0;
+  font-size: 38px;
+  margin: 0 0 0.25rem 0;
+  color: #585858;
+  line-height: 52px;
+} */
+
+.performance-facts__header {
+  border-bottom: 10px solid black;
+  padding: 0 0 0.25rem 0;
+  margin: 0 0 0.5rem 0;
+}
+
+.performance-facts__table {
+  border-collapse: unset;
+  border-spacing: 0;
+}
+
+.performance-facts__table .amps {
+  font-size: 16px;
+  font-weight: bold !important;
+  display: block;
+}
+
+.performance-facts__table th,
+.performance-facts__table--small th,
+.performance-facts__table--grid th,
+.performance-facts__table td,
+.performance-facts__table--small td,
+.performance-facts__table--grid td {
+  font-weight: normal;
+  text-align: left;
+  padding: 0.25rem 0;
+  border-top: 1px solid black;
+}
+
+.performance-facts__table td:last-child,
+.performance-facts__table--small td:last-child,
+.performance-facts__table--grid td:last-child {
+  text-align: right;
+}
+
+.performance-facts__table,
+.performance-facts__table--small,
+.performance-facts__table--grid {
+  width: 100%;
+}
+
+.performance-facts__table .nob,
+.performance-facts__table thead tr th {
+  border: 0 none !important;
+}
+
+#ingredients-container li {
+  border: solid;
+}
+
+.small-info {
+  font-size: 11px;
+}
+
+#small-nutrition-info {
+  line-height: 24px;
+  padding: 20px 0 0;
+}
+
+
+/* chart */
+#myChart{
+  width: 500px !important;
+  height: 500px !important;
+}
