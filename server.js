@@ -121,20 +121,6 @@ async function searchHandler(req, res) {
   queryParams.excluded = req.query.excluded || queryParams.excluded || '';
   queryParams.ingr = req.query.ingr || queryParams.ingr || '';
 
-  // queryParams = {
-  //   q: ingredients,
-  //   app_id: APP_ID,
-  //   app_key: APP_KEY,
-  //   from: from,
-  //   to: to,
-  //   calories:
-  //     fromC && toC ? `${fromC}-${toC}` : fromC ? `${fromC}+` : toC ? `${toC}` : "0+",
-  //   diet: diet,
-  //   health: health,
-  //   excluded: excluded,
-  //   ingr: ingr,
-  // };
-
   if (queryParams.excluded.length === 0) {
     delete queryParams.excluded;
   }
@@ -177,6 +163,7 @@ async function deleteFav(req, res) {
 //calculate
 async function calculateCalories(req, res) {
   let result = await getRecipeDB();
+  console.log(result.meals)
   res.render("pages/calorieCalculator", { meals: result.meals });
 }
 // render result 
