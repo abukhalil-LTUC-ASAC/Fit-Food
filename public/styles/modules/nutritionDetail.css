@@ -251,3 +251,10 @@ b {
   line-height: 24px;
   padding: 20px 0 0;
 }
+
+
+/* chart */
+#myChart{
+  width: 500px !important;
+  height: 500px !important;
+}

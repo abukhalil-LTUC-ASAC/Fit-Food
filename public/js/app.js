@@ -16,7 +16,6 @@ $(document).ready(function () {
   $('.pagination *').removeAttr('class');
   let btn = parseInt(localStorage.getItem('btn'));
   $(`.pagination a:nth-of-type(${btn})`).attr('class', 'active');
-
 });
 
 // favorit icon
@@ -41,12 +40,19 @@ $('.fav').on({
 // --------------------- Functions --------------------- //
 
 function startUpValues() {
-  $('#maxCalories').val(parseInt(localStorage.getItem('total') || 2000).toFixed(1));
-  $('.optimal-calories').html(parseInt(localStorage.getItem('total') || 2000).toFixed(1));
+  $('#maxCalories').val(
+    parseInt(localStorage.getItem('total') || 2000).toFixed(1)
+  );
+  $('.optimal-calories').html(
+    parseInt(localStorage.getItem('total') || 2000).toFixed(1)
+  );
   $('#weight').val(parseInt(localStorage.getItem('weight')));
   $('#height').val(parseInt(localStorage.getItem('height')));
   $('#age').val(parseInt(localStorage.getItem('age')));
-  $(`.radio-container input[value="${localStorage.getItem('gender')}"]`).attr('checked','checked');
+  $(`.radio-container input[value="${localStorage.getItem('gender')}"]`).attr(
+    'checked',
+    'checked'
+  );
 }
 
 function formCaloriesSubmit() {
@@ -58,9 +64,11 @@ function formCaloriesSubmit() {
   let total = parseInt(localStorage.getItem('total') || 2000).toFixed(1);
 
   if (gender === 'male') {
-    total = (13.397*weight + 4.799*height - 5.677*age + 88.362).toFixed(1); // sourced from https://www.calculator.net/bmr-calculator.html
+    total = (13.397 * weight + 4.799 * height - 5.677 * age + 88.362).toFixed(
+      1
+    ); // sourced from https://www.calculator.net/bmr-calculator.html
   } else if (gender === 'female') {
-    total = (9.247*weight + 3.098*height - 4.330*age + 447.593).toFixed(1);
+    total = (9.247 * weight + 3.098 * height - 4.33 * age + 447.593).toFixed(1);
   }
   localStorage.setItem('total', total);
   localStorage.setItem('weight', weight);
@@ -92,50 +100,62 @@ function listeners() {
 
 // option generator on startup
 function generateOptions(index) {
-  let measurements = ['Ounce', 'Gram', 'Pound', 'Kilogram', 'Pinch', 'Liter', 'Fluid ounce', 'Gallon',
-    'Pint', 'Quart', 'Milliliter', 'Drop', 'Cup', 'Tablespoon', 'Teaspoon'];
+  let measurements = [
+    'Ounce',
+    'Gram',
+    'Pound',
+    'Kilogram',
+    'Pinch',
+    'Liter',
+    'Fluid ounce',
+    'Gallon',
+    'Pint',
+    'Quart',
+    'Milliliter',
+    'Drop',
+    'Cup',
+    'Tablespoon',
+    'Teaspoon',
+  ];
   let select = $('#ingredientMeasure' + index);
 
-  $.each(measurements, function(key, value) {
-    select
-      .append($('<option></option>')
-        .attr('value', value.toLowerCase())
-        .text(value));
+  $.each(measurements, function (key, value) {
+    select.append(
+      $('<option></option>').attr('value', value.toLowerCase()).text(value)
+    );
   });
 }
 
 function renderAddIngredient() {
-  indexOption ++;
+  indexOption++;
   let template = $('#addTemplate').html();
   let obj = {
     index: 'id' + indexOption,
     name: 'searchIngredient' + indexOption,
     amount: 'ingredientAmount' + indexOption,
-    measure: 'ingredientMeasure' + indexOption
-  }
-  let objRendered = Mustache.render(template,obj);
+    measure: 'ingredientMeasure' + indexOption,
+  };
+  let objRendered = Mustache.render(template, obj);
   $('.template-add-area').append(objRendered);
   generateOptions(indexOption);
 }
-
 
 //---- nabvar responsive -----
 function renderRemoveIngredient() {
   $('#id' + indexOption).remove();
   if (indexOption > 0) {
-    indexOption --;
+    indexOption--;
   }
 }
-
 
 const hamburger = document.querySelector('.hamburger');
 const navLinks = document.querySelector('.nav-links');
 const links = document.querySelectorAll('.nav-links li');
 
-hamburger.addEventListener('click', ()=>{
+hamburger.addEventListener('click', () => {
   //Animate Links
   navLinks.classList.toggle('open');
-  links.forEach(link => {
+  links.forEach((link) => {
     link.classList.toggle('fade');
   });
 
@@ -143,4 +163,54 @@ hamburger.addEventListener('click', ()=>{
   hamburger.classList.toggle('toggle');
 });
 
+// Chartsa
+// var ctx = document.getElementById('myChart').getContext('2d');
 
+// var myPieChart = new Chart(ctx, {
+//   type: 'doughnut',
+//   data: {
+//     labels: ['Africa', 'Asia', 'Europe', 'Latin America', 'North America'],
+//     datasets: [
+//       {
+//         label: 'Population (millions)',
+//         backgroundColor: ['#3e95cd', '#8e5ea2','#3cba9f','#e8c3b9','#c45850'],
+//         data: [2478,5267,734,784,433],
+//         borderWidth: '1',
+//         weight: '3'
+//       }
+//     ]
+//   },
+//   options: {
+//     title: {
+//       display: true,
+//       text: 'Predicted world population (millions) in 2050'
+//     }
+//   }
+// });
+
+
+window.onload = function () {
+
+  var chart = new CanvasJS.Chart('chartContainer', {
+    animationEnabled: true,
+    title:{
+      text: 'Email Categories',
+      horizontalAlign: 'left'
+    },
+    data: [{
+      type: 'doughnut',
+      startAngle: 60,
+      //innerRadius: 60,
+      indexLabelFontSize: 17,
+      indexLabel: '{label} - #percent%',
+      toolTipContent: '<b>{label}:</b> {y} (#percent%)',
+      dataPoints: [
+        { y: 67, label: 'Inbox' },
+        { y: 28, label: 'Archives' },
+        { y: 10, label: 'Labels' },
+      ]
+    }]
+  });
+  chart.render();
+
+}
